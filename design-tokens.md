@@ -68,13 +68,15 @@ font-family: -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
 
 | 角色 | 字級 | 字重 |
 |------|------|------|
-| h1 標題 | `clamp(1.8rem, 3.6vw, 3rem)` | 800 |
+| h1 標題 | `clamp(2.6rem, 5.73vw, 4rem)` | 800 |
 | h2 副標 | `clamp(1rem, 1.6vw, 1.4rem)` | 500 |
 | 區塊標題 | `clamp(1.3rem, 2.2vw, 1.8rem)` | 700 |
 | 內文 | `1rem`（行高 1.85） | 400 |
 | 註解／日期 | `0.9rem` | 400 |
 
 `ponytail:` 刻意簡化——上限是「標題缺乏獨特字體個性」。真的需要時再引 Noto Serif TC 當 display 字體，屆時要接受 CDN 依賴或自行 self-host。目前優先保單檔無依賴。
+
+**Figma 迴圈的已知落差**：Figma 端沒有 PingFang TC，`use_figma` 建立節點時會退到 Noto Sans TC。這代表版面結構、間距、色彩在 Figma 上調整可信，但**中文字的斷行、字距、視覺重量不可信**——那要回瀏覽器用 Vite HMR 看實際字體渲染。2026-09-02 的 h1 字級（`3rem`→`4rem`）就是這樣校正回來的：Figma 上改字級沒有字體落差的問題（字級是數字，不受字體差異影響），但排版微調要在瀏覽器做。
 
 ---
 
