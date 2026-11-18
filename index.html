@@ -115,7 +115,7 @@
     letter-spacing:.16em; font-variant-numeric:tabular-nums;
   }
 
-  section{padding:9vh 0 0}
+  section{padding:9vh 0 0; scroll-margin-top:12px}
   h3.sec{font-size:1.24rem; margin:0 0 14px; font-weight:600; letter-spacing:.04em}
   h3.sec .lbl{
     display:block; font-size:.67rem; font-weight:500; color:var(--green-text);
@@ -521,6 +521,81 @@
   }
   @media print{ .reveal{animation:none; opacity:1} .day .body{display:block !important} }
 
+  /* ── 浮動目錄 ──
+     語彙沿用 SITE 時間軸：細線＋圓點、讀到的那一節實心、線跟著填色。
+     寬螢幕放在 .wrap 左側留白（920px 置中 → 留白 = (100vw-920px)/2）；
+     窄螢幕收成與語言鈕同款的藥丸，點開往上彈出清單。 */
+  .toc{position:fixed; z-index:49; font-size:.8rem}
+  .toc-list{position:relative}
+  .toc ol{list-style:none; margin:0; padding:0}
+  .toc a{
+    display:flex; align-items:center; gap:12px; text-decoration:none;
+    color:var(--ink-soft); font-weight:400; letter-spacing:.06em; line-height:1.2;
+    padding:7px 6px 7px 0; border-radius:8px;
+  }
+  .toc .tn{
+    flex:none; width:11px; height:11px; border-radius:50%; position:relative; z-index:1;
+    background:#fff; box-shadow:0 0 0 2px var(--green-mist);
+  }
+  .toc a:hover{color:var(--green-deep)}
+  .toc a:hover .tn{box-shadow:0 0 0 2px var(--green), 0 0 0 6px rgba(15,157,88,.12)}
+  .toc a[aria-current="true"]{color:var(--green-deep); font-weight:600}
+  .toc a[aria-current="true"] .tn{background:var(--green); box-shadow:0 0 0 2px var(--green), 0 0 0 6px rgba(15,157,88,.14)}
+  .toc a:focus-visible{outline:2px solid var(--green-deep); outline-offset:2px}
+  .toc-btn{display:none}
+
+  @media(min-width:1240px){
+    .toc{
+      top:50%; left:max(16px, calc((100vw - 920px) / 2 - 168px));
+      transform:translateY(-50%); width:138px; padding:14px 14px 14px 16px; border-radius:20px;
+      background:rgba(255,255,255,.72);
+      -webkit-backdrop-filter:blur(10px) saturate(1.2); backdrop-filter:blur(10px) saturate(1.2);
+      box-shadow:0 2px 18px rgba(8,99,58,.07);
+    }
+    /* 底線（淡）與進度線（綠）都畫在圓點中心那條垂直線上 */
+    .toc-list::before, .toc-fill{
+      content:""; position:absolute; left:5px; width:1.5px; top:14px; border-radius:2px;
+    }
+    .toc-list::before{bottom:14px; background:var(--green-mist)}
+    .toc-fill{height:var(--fill,0px); background:linear-gradient(180deg, rgba(15,157,88,.35), var(--green))}
+    /* 停在 hero 上時收起，捲進內容才滑出 */
+    .toc.away{opacity:0; transform:translate(-14px,-50%); pointer-events:none}
+  }
+
+  @media(max-width:1239.98px){
+    .toc{left:16px; bottom:16px}
+    .toc-btn{
+      display:flex; align-items:center; gap:7px; cursor:pointer; font:inherit; line-height:1;
+      font-size:.74rem; letter-spacing:.14em; font-weight:500; color:var(--green-deep);
+      border:0; padding:10px 16px 10px 13px; border-radius:999px;
+      background:var(--green-mist); box-shadow:0 2px 14px rgba(8,99,58,.12);
+    }
+    .toc-btn svg{width:15px; height:15px; fill:none; stroke:currentColor; stroke-width:1.8; stroke-linecap:round}
+    .toc-btn:focus-visible{outline:2px solid var(--green-deep); outline-offset:3px}
+    .toc-list{
+      position:absolute; left:0; bottom:calc(100% + 10px); min-width:168px;
+      padding:10px 14px; border-radius:18px; background:rgba(255,255,255,.96);
+      -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
+      box-shadow:0 8px 30px rgba(8,99,58,.16);
+      visibility:hidden; opacity:0; transform:translateY(8px) scale(.96); transform-origin:0 100%;
+    }
+    .toc.open .toc-list{visibility:visible; opacity:1; transform:none}
+    .toc .toc-fill{display:none}
+    .toc a{padding:9px 4px}
+    .toc.away{opacity:0; transform:translateY(10px); pointer-events:none}
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .toc{transition:opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1)}
+    .toc a, .toc .tn{transition:color .25s ease, background-color .25s ease, box-shadow .25s ease}
+    .toc .tn{transition-property:background-color, box-shadow, transform}
+    .toc a:hover .tn{transform:scale(1.12)}
+    .toc-fill{transition:height .5s cubic-bezier(.2,.8,.2,1)}
+    .toc-list{transition:opacity .22s ease, transform .3s cubic-bezier(.2,.9,.3,1.2), visibility 0s linear .3s}
+    .toc.open .toc-list{transition:opacity .22s ease, transform .3s cubic-bezier(.2,.9,.3,1.2), visibility 0s}
+    html{scroll-behavior:smooth}
+  }
+  @media print{ .toc{display:none} }
+
   /* ── 語言切換鈕 ──
      放在 header 外面：header 有 overflow:hidden + clip-path，放進去會被切掉。
      柔和半透明藥丸、無邊框，右緣對齊 header 的內距公式。
@@ -604,6 +679,24 @@
   <button type="button" data-set-lang="en" aria-pressed="false" lang="en" aria-label="English">EN</button>
 </div>
 
+<!-- 浮動目錄：寬螢幕是左側軸線，窄螢幕收成左下角按鈕（見 .toc 樣式與 script） -->
+<nav class="toc" aria-label="目錄 / Contents">
+  <button type="button" class="toc-btn" aria-expanded="false" aria-controls="toc-list">
+    <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 4h10M3 8h10M3 12h6"/></svg><span data-l="zh">目錄</span><span data-l="en">Contents</span>
+  </button>
+  <div class="toc-list" id="toc-list">
+  <span class="toc-fill" aria-hidden="true"></span>
+  <ol>
+    <li><a href="#about"><span class="tn" aria-hidden="true"></span><span data-l="zh">關於</span><span data-l="en">About</span></a></li>
+    <li><a href="#site"><span class="tn" aria-hidden="true"></span><span data-l="zh">基地</span><span data-l="en">Site</span></a></li>
+    <li><a href="#program"><span class="tn" aria-hidden="true"></span><span data-l="zh">課程</span><span data-l="en">Program</span></a></li>
+    <li><a href="#moments"><span class="tn" aria-hidden="true"></span><span data-l="zh">現場</span><span data-l="en">Moments</span></a></li>
+    <li><a href="#outcomes"><span class="tn" aria-hidden="true"></span><span data-l="zh">成果</span><span data-l="en">Outcomes</span></a></li>
+    <li><a href="#forum"><span class="tn" aria-hidden="true"></span><span data-l="zh">論壇</span><span data-l="en">Forum</span></a></li>
+  </ol>
+  </div>
+</nav>
+
 <header class="grain">
   <div class="mapwash"></div>
   <div class="glow" style="width:46vw;height:34vw;top:-18%;left:2%"></div>
@@ -616,7 +709,7 @@
 </header>
 
 <div class="wrap">
-  <section>
+  <section id="about">
     <h3 class="sec"><span class="lbl en">ABOUT</span><span data-l="zh">關於這場工作坊</span><span data-l="en">About the Workshop</span></h3>
     <div class="about reveal">
       <div class="ag"></div>
@@ -638,13 +731,13 @@
     </div>
   </section>
 
-  <section>
+  <section id="site">
     <h3 class="sec"><span class="lbl en">SITE</span><span data-l="zh">基地與選址</span><span data-l="en">The Site</span></h3>
     <details class="site reveal">
       <summary>
         <span class="tag en">SITE</span>
         <span class="ttl" data-l="zh">南鐵綠廊北段・四個基地<span class="sub"><span class="si"><b>A</b>站前廣場</span><span class="si"><b>B</b>通學廊道</span><span class="si"><b>C</b>綠廊中段</span><span class="si"><b>D</b>綠廊北段</span></span></span><span class="ttl" data-l="en">Northern Section · Four Sites<span class="sub"><span class="si"><b>A</b>Station Plaza</span><span class="si"><b>B</b>School Corridor</span><span class="si"><b>C</b>Middle Greenway</span><span class="si"><b>D</b>Northern Greenway</span></span></span>
-        <span class="hint" data-l="zh">城牆 → 園道 → 綠廊</span><span class="hint" data-l="en">City wall → parkway → greenway</span>
+        <span class="hint" data-l="zh">城牆 → 鐵道 → 綠廊</span><span class="hint" data-l="en">City wall → railway → greenway</span>
         <span class="arw" aria-hidden="true">→</span>
       </summary>
       <div class="body">
@@ -772,7 +865,7 @@
     </details>
   </section>
 
-  <section>
+  <section id="program">
     <h3 class="sec"><span class="lbl en">PROGRAM</span><span data-l="zh">課程流程</span><span data-l="en">Program</span></h3>
     <p class="lede" data-l="zh">六天的課程與工作，點開任一天看當日內容與照片。</p><p class="lede" data-l="en">Six days of teaching and studio work. Open a day to see its sessions and photos.</p>
     <div class="corridor">
@@ -850,7 +943,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="moments">
     <h3 class="sec"><span class="lbl en">MOMENTS</span><span data-l="zh">工作坊現場</span><span data-l="en">Workshop Moments</span></h3>
     <p class="lede" data-l="zh">每日精選之外的其他現場紀錄。滑鼠移上去可暫停。</p><p class="lede" data-l="en">More photos from the workshop beyond the daily selections. Hover or tap to pause.</p>
     <div class="wall reveal">
@@ -979,7 +1072,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="outcomes">
     <h3 class="sec"><span class="lbl en">GROUP OUTCOMES</span><span data-l="zh">各組成果</span><span data-l="en">Group Outcomes</span></h3>
     <p class="lede" data-l="zh">七組提案，點擊開啟各組完整簡報。</p><p class="lede" data-l="en">Seven proposals. Click any group to open its full slide deck.</p>
     <div class="groups">
@@ -1161,7 +1254,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="forum">
     <h3 class="sec"><span class="lbl en">INTERNATIONAL FORUM</span><span data-l="zh">國際論壇</span><span data-l="en">International Forum</span></h3>
     <div class="forum reveal">
       <div class="fglow"></div>
@@ -1559,6 +1652,70 @@ document.querySelectorAll('.jb').forEach(a => {
       { rootMargin: '-56px 0px 0px 0px', threshold: 0 }
     ).observe(hero);
   }
+})();
+</script>
+<script>
+/* 浮動目錄：捲動時標出目前章節並推進進度線；窄螢幕的按鈕開合清單。
+   連結本身是普通錨點，沒有 JS 也能跳。 */
+(() => {
+  const toc = document.querySelector('.toc');
+  if (!toc) return;
+  const list = toc.querySelector('.toc-list');
+  const btn = toc.querySelector('.toc-btn');
+  const fill = toc.querySelector('.toc-fill');
+  const links = [...toc.querySelectorAll('.toc-list a')];
+  const secs = links.map(a => document.querySelector(a.getAttribute('href')));
+
+  const setActive = i => {
+    links.forEach((a, k) => a.setAttribute('aria-current', String(k === i)));
+    const dot = links[i] && links[i].querySelector('.tn');
+    if (fill && dot) {
+      const top = list.getBoundingClientRect().top;
+      const r = dot.getBoundingClientRect();
+      fill.style.setProperty('--fill', Math.max(0, r.top + r.height / 2 - top - 14) + 'px');
+    }
+  };
+  // 目前章節 = 標題已經捲過視窗上方 35% 的最後一節
+  let raf = 0;
+  const spy = () => {
+    raf = 0;
+    const line = innerHeight * 0.35;
+    let cur = 0;
+    secs.forEach((s, k) => { if (s && s.getBoundingClientRect().top <= line) cur = k; });
+    if (innerHeight + scrollY >= document.documentElement.scrollHeight - 4) cur = secs.length - 1;
+    setActive(cur);
+  };
+  const queue = () => { if (!raf) raf = requestAnimationFrame(spy); };
+  addEventListener('scroll', queue, { passive: true });
+  addEventListener('resize', queue);
+  document.addEventListener('langchange', queue);   // 中英字寬不同，圓點位置會變
+  spy();
+
+  // 停在 hero 上時收起
+  const hero = document.querySelector('header');
+  if (hero && 'IntersectionObserver' in window) {
+    new IntersectionObserver(([e]) => toc.classList.toggle('away', e.isIntersecting && !toc.classList.contains('open')),
+      { rootMargin: '-40% 0px 0px 0px', threshold: 0 }).observe(hero);
+  }
+
+  // 窄螢幕：按鈕開合，點連結、按 Esc、點外面都收起
+  const close = () => { toc.classList.remove('open'); btn.setAttribute('aria-expanded', 'false'); };
+  btn.addEventListener('click', () => {
+    const open = !toc.classList.contains('open');
+    toc.classList.toggle('open', open);
+    btn.setAttribute('aria-expanded', String(open));
+    if (open) toc.classList.remove('away');
+  });
+  links.forEach(a => a.addEventListener('click', e => {
+    const t = document.querySelector(a.getAttribute('href'));
+    if (!t) return;
+    e.preventDefault();
+    t.scrollIntoView({ block: 'start' });          // 平滑與否交給 CSS scroll-behavior（含 reduced-motion）
+    history.replaceState(null, '', location.search + a.getAttribute('href'));  // 保留 ?lang=
+    close();
+  }));
+  addEventListener('keydown', e => { if (e.key === 'Escape' && toc.classList.contains('open')) { close(); btn.focus(); } });
+  document.addEventListener('click', e => { if (!toc.contains(e.target)) close(); });
 })();
 </script>
 </body>
