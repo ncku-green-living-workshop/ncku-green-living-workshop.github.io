@@ -222,8 +222,18 @@
   }
   .site .ttl{font-weight:600; font-size:1.06rem; letter-spacing:.02em; color:var(--ink); flex:1 1 16rem}
   .site .ttl .sub{
-    display:block; font-size:.78rem; font-weight:300;
-    color:var(--ink-soft); margin-top:3px; letter-spacing:0;
+    display:flex; flex-wrap:wrap; gap:6px 16px; font-size:.78rem; font-weight:400;
+    color:var(--ink-soft); margin-top:7px; letter-spacing:0;
+  }
+  /* 每個基地一顆：代號在實心圓內、名稱不斷行，避免 A/B/C/D 和文字黏在一起 */
+  .site .ttl .si{display:inline-flex; align-items:center; gap:6px; white-space:nowrap}
+  .site .ttl .si b{
+    display:inline-grid; place-items:center; width:18px; height:18px; border-radius:50%;
+    background:var(--green-deep); color:#fff; font-size:.64rem; font-weight:600; line-height:1;
+    transition:transform .25s cubic-bezier(.3,1.4,.5,1);
+  }
+  @media (prefers-reduced-motion: no-preference){
+    .site summary:hover .si b{transform:scale(1.12)}
   }
   .site .hint{
     font-size:.73rem; color:var(--ink-soft); letter-spacing:.1em; flex:none;
@@ -633,7 +643,7 @@
     <details class="site reveal">
       <summary>
         <span class="tag en">SITE</span>
-        <span class="ttl" data-l="zh">南鐵綠廊北段・四個基地<span class="sub">A 站前廣場・B 通學廊道・C 綠廊中段・D 綠廊北段</span></span><span class="ttl" data-l="en">Northern Section · Four Sites<span class="sub">A Station Plaza · B School Corridor · C Middle Greenway · D Northern Greenway</span></span>
+        <span class="ttl" data-l="zh">南鐵綠廊北段・四個基地<span class="sub"><span class="si"><b>A</b>站前廣場</span><span class="si"><b>B</b>通學廊道</span><span class="si"><b>C</b>綠廊中段</span><span class="si"><b>D</b>綠廊北段</span></span></span><span class="ttl" data-l="en">Northern Section · Four Sites<span class="sub"><span class="si"><b>A</b>Station Plaza</span><span class="si"><b>B</b>School Corridor</span><span class="si"><b>C</b>Middle Greenway</span><span class="si"><b>D</b>Northern Greenway</span></span></span>
         <span class="hint" data-l="zh">城牆 → 園道 → 綠廊</span><span class="hint" data-l="en">City wall → parkway → greenway</span>
         <span class="arw" aria-hidden="true">→</span>
       </summary>
@@ -641,14 +651,17 @@
         <p class="lede" data-l="zh">
           工作坊的基地是<strong>台南鐵路地下化後即將空出的南鐵綠廊北段</strong>。
           選擇這裡，是因為這條廊帶並非新生的空地——1900 年縱貫鐵路鑿穿清代府城城牆進城，
-          2026 年鐵路轉入地下，這條線再次空了出來。工作坊要問的是：當台南邁入超高齡社會，
+          2026 年鐵路轉入地下，這條線再次空了出來。其間，1941 年的日治都市計畫曾規劃一條 40 公尺寬的環狀公園道橫越這條線，
+          戰後才陸續闢為今天的東豐路、林森路等，其中東豐路正是基地 B、C 區的分界。工作坊要問的是：當台南邁入超高齡社會，
           這條被反覆重寫的廊帶，這一次應該為誰而寫。
         </p>
         <p class="lede" data-l="en">
           The workshop is sited on the <strong>northern section of the corridor being freed up by the
           undergrounding of the Tainan railway</strong>. It was chosen because this is not newly vacant land —
           in 1900 the railway broke through the Qing-dynasty city wall to enter Tainan, and in 2026 the
-          trains moved underground, leaving the line open once again. The question the workshop asks is this: as Tainan enters a super-aged society, who should
+          trains moved underground, leaving the line open once again. In between, the 1941 Japanese colonial city
+          plan laid out a 40-metre ring parkway crossing the line; it was only built after the war, as today's
+          Dongfeng Rd., Linsen Rd. and others — and Dongfeng Rd. is the boundary between Sites B and C. The question the workshop asks is this: as Tainan enters a super-aged society, who should
           this repeatedly rewritten corridor be redesigned for this time?
         </p>
 
