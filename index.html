@@ -546,17 +546,18 @@
 
   @media(min-width:1240px){
     .toc{
-      top:50%; left:max(16px, calc((100vw - 920px) / 2 - 168px));
+      /* 淡綠紗：#e3f1e9 疊在白底與點陣上；ink-soft 字 6.12:1、深綠字 6.31:1 */
+      top:50%; left:max(20px, calc((100vw - 920px) / 2 - 224px));
       transform:translateY(-50%); width:138px; padding:14px 14px 14px 16px; border-radius:20px;
-      background:rgba(255,255,255,.72);
+      background:rgba(227,241,233,.86);
       -webkit-backdrop-filter:blur(10px) saturate(1.2); backdrop-filter:blur(10px) saturate(1.2);
-      box-shadow:0 2px 18px rgba(8,99,58,.07);
+      box-shadow:0 2px 18px rgba(8,99,58,.08);
     }
     /* 底線（淡）與進度線（綠）都畫在圓點中心那條垂直線上 */
     .toc-list::before, .toc-fill{
       content:""; position:absolute; left:5px; width:1.5px; top:14px; border-radius:2px;
     }
-    .toc-list::before{bottom:14px; background:var(--green-mist)}
+    .toc-list::before{bottom:14px; background:rgba(15,157,88,.22)}
     .toc-fill{height:var(--fill,0px); background:linear-gradient(180deg, rgba(15,157,88,.35), var(--green))}
     /* 停在 hero 上時收起，捲進內容才滑出 */
     .toc.away{opacity:0; transform:translate(-14px,-50%); pointer-events:none}
@@ -574,7 +575,7 @@
     .toc-btn:focus-visible{outline:2px solid var(--green-deep); outline-offset:3px}
     .toc-list{
       position:absolute; left:0; bottom:calc(100% + 10px); min-width:168px;
-      padding:10px 14px; border-radius:18px; background:rgba(255,255,255,.96);
+      padding:10px 14px; border-radius:18px; background:rgba(227,241,233,.97);
       -webkit-backdrop-filter:blur(10px); backdrop-filter:blur(10px);
       box-shadow:0 8px 30px rgba(8,99,58,.16);
       visibility:hidden; opacity:0; transform:translateY(8px) scale(.96); transform-origin:0 100%;
