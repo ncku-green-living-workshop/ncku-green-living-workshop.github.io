@@ -1,0 +1,333 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>文案編輯器｜綠生活工作坊</title>
+<style>
+:root{
+  --green-text:#0b7a44; --green:#0f9d58; --green-tint:#f2faf5; --green-on:#e6f7ee;
+  --ink:#1a1a1a; --bg:#ffffff; --muted:#5c6b62; --line:#d8e5dc;
+  --amber:#8a5a00; --amber-tint:#fdf6e7;
+  --sp-1:.5rem; --sp-2:1rem; --sp-3:1.5rem; --sp-4:2.5rem;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--bg); color:var(--ink);
+  font-family:-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+  line-height:1.7;
+}
+:focus-visible{outline:2px solid var(--green-text); outline-offset:3px}
+
+/* 頁首：沿用全站的斜切綠色滿版標題列 */
+header{
+  background:var(--green-text); color:#fff; padding:var(--sp-3) var(--sp-4) var(--sp-4);
+  clip-path:polygon(0 0,100% 0,100% 82%,62% 82%,55% 100%,0 86%);
+}
+h1{margin:0; font-size:1.4rem; font-weight:800; letter-spacing:.02em}
+header p{margin:.35rem 0 0; color:var(--green-on); font-size:.9rem}
+
+.bar{
+  position:sticky; top:0; z-index:20; background:rgba(255,255,255,.94);
+  backdrop-filter:blur(8px); border-bottom:1px solid var(--line);
+  display:flex; gap:var(--sp-1); align-items:center; flex-wrap:wrap;
+  padding:var(--sp-2) var(--sp-4);
+}
+.tabs{display:flex; gap:.3rem; flex-wrap:wrap; flex:1}
+.tab{
+  border:0; background:transparent; color:var(--muted); cursor:pointer;
+  font:inherit; font-size:.85rem; padding:.4rem .8rem; border-radius:999px;
+}
+.tab:hover{background:var(--green-tint); color:var(--green-text)}
+.tab[aria-selected="true"]{background:var(--green-tint); color:var(--green-text); font-weight:600}
+.tab .n{opacity:.6; font-size:.75rem; margin-left:.3rem}
+
+button.act{
+  border:0; border-radius:999px; cursor:pointer; font:inherit; font-size:.85rem;
+  padding:.5rem 1.2rem; background:var(--green-text); color:#fff; font-weight:600;
+}
+button.act:hover{background:#096438}
+button.act[disabled]{background:var(--line); color:var(--muted); cursor:default}
+button.ghost{background:transparent; color:var(--green-text); box-shadow:inset 0 0 0 1px var(--line)}
+button.ghost:hover{background:var(--green-tint)}
+
+main{padding:var(--sp-3) var(--sp-4) 6rem; max-width:1180px}
+.hint{color:var(--muted); font-size:.85rem; margin:0 0 var(--sp-3)}
+
+.row{
+  display:grid; grid-template-columns:1fr 1fr; gap:var(--sp-2);
+  padding:var(--sp-2) 0; border-bottom:1px solid var(--line);
+}
+.row.mono{grid-template-columns:1fr}
+.meta{grid-column:1/-1; display:flex; gap:.5rem; align-items:center; flex-wrap:wrap}
+.tagline{font-size:.72rem; color:var(--muted); letter-spacing:.06em; text-transform:uppercase}
+.badge{
+  font-size:.7rem; padding:.15rem .5rem; border-radius:999px;
+  background:var(--amber-tint); color:var(--amber);
+}
+.badge.g{background:var(--green-tint); color:var(--green-text)}
+.f{display:flex; flex-direction:column; gap:.3rem}
+.f > label{font-size:.72rem; color:var(--muted)}
+textarea{
+  font:inherit; font-size:.92rem; line-height:1.65; color:var(--ink);
+  border:1px solid var(--line); border-radius:10px; padding:.6rem .7rem;
+  background:#fff; resize:vertical; min-height:3.2rem; width:100%;
+}
+textarea:hover{border-color:var(--green)}
+textarea.ro{background:var(--green-tint); color:var(--muted); border-style:dashed}
+textarea.dirty{border-color:var(--green); background:#fbfffc}
+code.tag{font-family:ui-monospace,SFMono-Regular,Menlo,monospace; font-size:.78rem; color:var(--muted)}
+
+dialog{
+  border:0; border-radius:16px; padding:0; max-width:640px; width:92vw;
+  box-shadow:0 24px 60px rgba(0,0,0,.18);
+}
+dialog::backdrop{background:rgba(10,40,25,.35)}
+.dlg{padding:var(--sp-3) var(--sp-4) var(--sp-3)}
+.dlg h2{margin:0 0 .6rem; font-size:1.05rem; color:var(--green-text)}
+.dlg pre{
+  background:var(--green-tint); border-radius:10px; padding:.8rem;
+  font-size:.8rem; overflow:auto; max-height:38vh; margin:0 0 var(--sp-2);
+  white-space:pre-wrap; word-break:break-all;
+}
+.dlg input{
+  font:inherit; width:100%; padding:.55rem .7rem; border:1px solid var(--line);
+  border-radius:10px; margin-bottom:var(--sp-2);
+}
+.dlg .btns{display:flex; gap:.5rem; justify-content:flex-end}
+
+#toast{
+  position:fixed; left:50%; bottom:2rem; transform:translateX(-50%) translateY(1rem);
+  background:var(--green-text); color:#fff; padding:.65rem 1.3rem; border-radius:999px;
+  font-size:.88rem; opacity:0; pointer-events:none; z-index:50;
+}
+#toast.show{opacity:1; transform:translateX(-50%)}
+#toast.err{background:#a33}
+@media (prefers-reduced-motion: no-preference){
+  #toast{transition:opacity .22s ease, transform .22s ease}
+  .tab,button.act,textarea{transition:background-color .18s ease,border-color .18s ease}
+}
+@media (max-width:720px){
+  header,.bar,main{padding-left:var(--sp-2); padding-right:var(--sp-2)}
+  .row{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>文案編輯器</h1>
+  <p>編輯中文 → 存檔 → 待翻項目交給 Claude Code → Push 上線</p>
+</header>
+
+<div class="bar">
+  <div class="tabs" id="tabs" role="tablist"></div>
+  <span id="pending" class="badge" hidden></span>
+  <button class="act ghost" id="reload" type="button">重新載入</button>
+  <button class="act" id="save" type="button" disabled>存檔</button>
+  <button class="act" id="pushBtn" type="button">Push…</button>
+</div>
+
+<main>
+  <p class="hint" id="hint">載入中…</p>
+  <div id="list"></div>
+</main>
+
+<dialog id="pushDlg">
+  <form method="dialog" class="dlg">
+    <h2>確認要推送的變動</h2>
+    <pre id="diffStat">…</pre>
+    <p class="hint" id="pushWarn" hidden></p>
+    <input id="msg" type="text" value="Edit site copy via editor" aria-label="Commit message">
+    <div class="btns">
+      <button class="act ghost" value="cancel" type="submit">取消</button>
+      <button class="act" id="doPush" value="push" type="submit">Commit &amp; Push</button>
+    </div>
+  </form>
+</dialog>
+
+<div id="toast" role="status" aria-live="polite"></div>
+
+<script>
+// Per-run token injected by editor.js; every /api call must carry it.
+const TOKEN = "__EDITOR_TOKEN__";
+const api = (p, o = {}) => fetch(p, { ...o, headers: { ...o.headers, "x-editor-token": TOKEN } });
+const $ = s => document.querySelector(s);
+let data = null, cur = null;
+const dirty = { prose:{}, meta:{}, alts:{}, mono:{} };
+
+const toast = (msg, err) => {
+  const t = $('#toast');
+  t.textContent = msg;
+  t.classList.toggle('err', !!err);
+  t.classList.add('show');
+  clearTimeout(t._t);
+  t._t = setTimeout(() => t.classList.remove('show'), err ? 5000 : 2200);
+};
+
+const countDirty = () =>
+  Object.values(dirty).reduce((n, g) => n + Object.keys(g).length, 0);
+
+function markDirty(){
+  const n = countDirty();
+  $('#save').disabled = n === 0;
+  $('#save').textContent = n ? `存檔（${n}）` : '存檔';
+}
+
+// 依 section 分頁。META 自成一頁。
+function groups(){
+  const g = new Map();
+  const put = (name, item) => { if(!g.has(name)) g.set(name, []); g.get(name).push(item); };
+  for (const p of data.prose) put(p.section, {kind:'prose', ...p});
+  for (const a of data.alts)  put(a.section, {kind:'alts', ...a});
+  for (const m of data.mono)  put(m.section, {kind:'mono', ...m});
+  for (const m of data.meta)  put('META',    {kind:'meta', ...m});
+  return g;
+}
+
+function renderTabs(){
+  const g = groups();
+  const tabs = $('#tabs');
+  tabs.innerHTML = '';
+  for (const [name, items] of g){
+    const b = document.createElement('button');
+    b.className = 'tab'; b.type = 'button'; b.role = 'tab';
+    b.innerHTML = `${name}<span class="n">${items.length}</span>`;
+    b.setAttribute('aria-selected', String(name === cur));
+    b.onclick = () => { cur = name; renderTabs(); renderList(); };
+    tabs.appendChild(b);
+  }
+}
+
+function field(labelText, value, opts = {}){
+  const wrap = document.createElement('div');
+  wrap.className = 'f';
+  const lab = document.createElement('label');
+  lab.textContent = labelText;
+  const ta = document.createElement('textarea');
+  ta.value = value;
+  ta.rows = Math.min(10, Math.max(2, Math.ceil(value.length / 46)));
+  if (opts.readonly){ ta.readOnly = true; ta.className = 'ro'; }
+  lab.htmlFor = ta.id = 'f' + Math.random().toString(36).slice(2, 9);
+  wrap.append(lab, ta);
+  return { wrap, ta };
+}
+
+function renderList(){
+  const items = groups().get(cur) || [];
+  const list = $('#list');
+  list.innerHTML = '';
+
+  for (const it of items){
+    const row = document.createElement('div');
+    row.className = 'row' + (it.kind === 'mono' || it.kind === 'meta' ? ' mono' : '');
+
+    const meta = document.createElement('div');
+    meta.className = 'meta';
+    const kindLabel = {prose:'段落', alts:'圖片 alt', mono:'單語欄位', meta:'頁面資訊'}[it.kind];
+    meta.innerHTML = `<span class="tagline">${kindLabel}</span>`;
+    if (it.hasMarkup) meta.insertAdjacentHTML('beforeend',
+      '<span class="badge">含格式標籤，編輯時保留 &lt;…&gt;</span>');
+    if (it.cls) meta.insertAdjacentHTML('beforeend', `<code class="tag">.${it.cls}</code>`);
+    if (it.kind === 'meta') meta.insertAdjacentHTML('beforeend',
+      `<code class="tag">${it.lang}.${it.key}</code>`);
+    if (it.kind === 'mono') meta.insertAdjacentHTML('beforeend',
+      '<span class="badge g">中英共用</span>');
+    row.appendChild(meta);
+
+    if (it.kind === 'prose' || it.kind === 'alts'){
+      const zh = field('中文', it.zh);
+      const en = field('English（存檔後交給 Claude Code 翻譯）', it.en, {readonly:true});
+      zh.ta.oninput = () => {
+        const changed = zh.ta.value !== it.zh;
+        zh.ta.classList.toggle('dirty', changed);
+        if (changed) dirty[it.kind][it.id] = {...(dirty[it.kind][it.id]||{}), zh: zh.ta.value};
+        else { delete dirty[it.kind][it.id]; }
+        markDirty();
+      };
+      row.append(zh.wrap, en.wrap);
+    } else {
+      const label = it.kind === 'meta'
+        ? (it.lang === 'zh' ? '中文' : 'English')
+        : '內容（單一語言，中英版面共用）';
+      const f = field(label, it.text);
+      f.ta.oninput = () => {
+        const changed = f.ta.value !== it.text;
+        f.ta.classList.toggle('dirty', changed);
+        if (changed) dirty[it.kind][it.id] = f.ta.value;
+        else delete dirty[it.kind][it.id];
+        markDirty();
+      };
+      row.append(f.wrap);
+    }
+    list.appendChild(row);
+  }
+
+  $('#hint').textContent = cur === 'META'
+    ? '頁面標題與分享預覽文案。注意：爬蟲抓的是原始 HTML，分享卡永遠顯示中文版。'
+    : '左欄編輯中文；英文欄唯讀，存檔後在 Claude Code 說「翻譯待翻項目」。';
+}
+
+async function load(){
+  const r = await api('/api/content');
+  data = await r.json();
+  for (const k of Object.keys(dirty)) dirty[k] = {};
+  if (!cur || !groups().has(cur)) cur = groups().keys().next().value;
+  renderTabs(); renderList(); markDirty();
+  const p = $('#pending');
+  p.hidden = !data.pending;
+  p.textContent = `待翻 ${data.pending} 筆`;
+}
+
+$('#save').onclick = async () => {
+  const payload = {
+    prose: dirty.prose, meta: dirty.meta, alts: dirty.alts, mono: dirty.mono,
+  };
+  const r = await api('/api/save', {
+    method:'POST', headers:{'content-type':'application/json'},
+    body: JSON.stringify(payload),
+  });
+  const j = await r.json();
+  if (!j.ok) return toast(j.error || '存檔失敗', true);
+  await load();
+  toast(`已存檔 ${j.changed} 處${j.pending ? `，待翻 ${j.pending} 筆` : ''}`);
+};
+
+$('#reload').onclick = () => {
+  if (countDirty() && !confirm('有未存檔的修改，確定要重新載入？')) return;
+  load();
+};
+
+$('#pushBtn').onclick = async () => {
+  if (countDirty()) return toast('請先存檔再 Push', true);
+  const r = await api('/api/preflight');
+  const j = await r.json();
+  if (!j.ok) return toast(j.error || '預檢失敗', true);
+  if (j.clean) return toast('沒有任何變動可以推送', true);
+  $('#diffStat').textContent = j.stat;
+  const w = $('#pushWarn');
+  w.hidden = !j.pending;
+  w.textContent = `注意：還有 ${j.pending} 筆待翻，英文版尚未更新。確定要先推中文？`;
+  $('#pushDlg').showModal();
+};
+
+$('#pushDlg').addEventListener('close', async e => {
+  if ($('#pushDlg').returnValue !== 'push') return;
+  toast('推送中…');
+  const r = await api('/api/push', {
+    method:'POST', headers:{'content-type':'application/json'},
+    body: JSON.stringify({ message: $('#msg').value }),
+  });
+  const j = await r.json();
+  if (!j.ok) return toast(j.error || 'Push 失敗', true);
+  toast(`已推送 ${j.sha}，約 60 秒後上線`);
+});
+
+addEventListener('beforeunload', e => {
+  if (countDirty()){ e.preventDefault(); e.returnValue = ''; }
+});
+
+load().catch(e => toast(e.message, true));
+</script>
+</body>
+</html>

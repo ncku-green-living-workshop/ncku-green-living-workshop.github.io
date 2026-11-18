@@ -1,0 +1,77 @@
+{
+  "_readme": "翻譯待翻項目時的硬約束。這些譯名是查官方來源校對過的成果（commit 7dcfafb），不得憑語感改寫。新增條目時一併寫下來源。",
+
+  "rules": [
+    "拼音一律用漢語拼音，不用通用拼音——依台南市政府官方路名英譯表（Daxue 不是 Dasyue、Xiaodong 不是 Siaodong、Dongfeng 不是 Dongfong）。",
+    "英式／美式拼法一律跟隨工作坊自己的英文：aging 不是 ageing、Program 不是 Programme。",
+    "中文用全形分隔號｜，英文改用 ·（半形點加空格）。英文段落不要出現｜。",
+    "機構名第一次出現寫全稱，不要用 Dept. / Univ. 這類縮寫。NCKU 要寫成 National Cheng Kung University。",
+    "里 = Village，里長 = Chief of ... Village（國家教育研究院用語），不要用 neighbourhood / neighbourhood head。",
+    "人名、校名、單位名若不在本表中且無把握，保留原文並在待翻清單標記待查，不要自行音譯。"
+  ],
+
+  "terms": {
+    "大學路": "Daxue Rd.",
+    "小東路": "Xiaodong Rd.",
+    "東豐路": "Dongfeng Rd.",
+    "和緯路": "Hewei Rd.",
+    "長榮路": "Changrong Rd.",
+
+    "中樓里": "Zhonglou Village",
+    "長勝里": "Changsheng Village",
+    "長勝里里長": "Chief of Changsheng Village",
+    "長榮新城": "Changrong New Town",
+    "九六新村": "Jiuliu New Village",
+    "香草公園": "Herb Park",
+    "小康公園": "Xiaokang Park",
+    "臺南二中": "National Tainan Second Senior High School",
+    "南二中": "National Tainan Second Senior High School",
+    "三校共構": "the three-school complex",
+
+    "仲觀聯合建築師事務所": "J.M. Lin Architect / The Observer Design Group",
+
+    "成功大學": "National Cheng Kung University",
+    "成大": "National Cheng Kung University",
+    "成功大學建築系": "Department of Architecture, National Cheng Kung University",
+    "成大創意產業設計研究所": "Institute of Creative Industries Design, National Cheng Kung University",
+    "千葉大學": "Chiba University",
+    "印尼大學": "Universitas Indonesia",
+    "清邁大學建築學院": "Faculty of Architecture, Chiang Mai University",
+    "日本女子大學建築設計學系": "Department of Architecture and Design, Japan Women's University",
+
+    "南鐵綠廊": "the Tainan railway greenway",
+    "南鐵綠廊北段": "the northern section of the Tainan railway greenway",
+    "鐵路地下化": "the undergrounding of the railway",
+    "台南": "Tainan",
+    "臺南": "Tainan",
+
+    "超高齡社會": "super-aged society",
+    "健康老化": "healthy aging",
+    "在地老化": "aging in place",
+    "通學廊道": "school corridor",
+    "站前廣場": "station plaza",
+    "社會住宅": "social housing",
+    "文資園區": "the cultural heritage park",
+    "新住民": "new immigrants",
+    "移工": "migrant workers",
+
+    "工作坊": "workshop",
+    "國際論壇": "international forum",
+    "綜合討論": "panel discussion",
+    "開幕・來賓致詞": "opening remarks",
+    "課程流程": "Program",
+    "各組成果": "Group Outcomes",
+    "主持": "Moderator"
+  },
+
+  "people": {
+    "_note": "姓名一律用當事人自己使用的拉丁拼寫，不重新音譯。",
+    "Kemas Ridwan Kurniawan": "Department of Architecture / Dean, Faculty of Engineering, Universitas Indonesia — 2013 已卸任系主任，兩個職務分開列",
+    "Masayuki Suzuki": "Graduate School of Global and Transdisciplinary Studies, Chiba University",
+    "Apichoke Lekagul": "Faculty of Architecture, Chiang Mai University",
+    "Nawit Ongsavangchai": "Faculty of Architecture, Chiang Mai University",
+    "Momoka Hirai": "Department of Architecture and Design, Japan Women's University",
+    "Chi-Pang Lu": "Department of Architecture, National Cheng Kung University",
+    "Chia-Han Yang": "Institute of Creative Industries Design, National Cheng Kung University"
+  }
+}

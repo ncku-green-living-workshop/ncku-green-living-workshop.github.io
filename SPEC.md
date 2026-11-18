@@ -96,7 +96,7 @@
 
 ### 視覺：沿用現有啟動頁的設計語言
 
-`~/Desktop/Claude Code/分組報告連結啟動頁/index.html` 是可直接重用的資產，它就是老師 [00:26:56] 說「今年收集簡報時選擇用連結的方式」的那個頁面。老師也說「Mia 設計的那個底還蠻好看的，你也可以就照那個邏輯來做」[00:33:06][00:33:11]。
+`~/Desktop/claude-code/group-report-launcher/index.html` 是可直接重用的資產，它就是老師 [00:26:56] 說「今年收集簡報時選擇用連結的方式」的那個頁面。老師也說「Mia 設計的那個底還蠻好看的，你也可以就照那個邏輯來做」[00:33:06][00:33:11]。
 
 可沿用的部分：
 
@@ -128,7 +128,7 @@ GitHub Pages 或 Netlify（皆免費、可綁公開網址）。做法在實作�
 
 | 素材 | 來源 |
 |---|---|
-| 工作坊全名「超高齡社會下的綠色生活 / Green Living for the Super-Aged Society」 | `分組報告連結啟動頁/index.html` |
+| 工作坊全名「超高齡社會下的綠色生活 / Green Living for the Super-Aged Society」 | `group-report-launcher/index.html` |
 | 日期 2026/8/1–8/7 | 同上 |
 | 7 組簡報連結（Canva ×6、Google Slides ×1） | 同上，見下表 |
 | 地圖背景圖 | 本專案 `assets/map-bw.png` |

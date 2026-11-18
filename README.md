@@ -78,7 +78,41 @@ MAX_PER_DAY=16 ./scripts/optimize-photos.sh
 > 因此**不可用 `FORCE=1` 全量重跑**，否則這些照片會被排序第 N 張覆蓋掉。
 > 要重新產生單一張，請先手動刪除該檔再執行。
 
+## 編輯文案
+
+不用手改 `index.html`，跑編輯器：
+
+```bash
+node scripts/editor.js        # → http://127.0.0.1:4321
+```
+
+零依賴，只用 Node 內建模組。介面依區塊分頁，左欄編輯中文、右欄英文唯讀。
+涵蓋四類文字：76 組 `data-l` 散文、`META` 標題與描述、13 組圖片 `alt`、
+以及只有一種語言的專名欄位（`.topic` / `.ftitle` / `.fwho` / `.mvcb` / `.who`）。
+
+流程是**中文 → 存檔 → 翻譯 → Push**：
+
+1. 改中文按存檔。變動的段落會寫進 `.editor-pending.json`（不進版控）。
+2. 在 Claude Code 說「翻譯待翻項目」。翻譯必須遵守 `scripts/glossary.json`——
+   那裡鎖著查官方來源校對過的譯名（路名漢語拼音、里=Village、
+   仲觀＝J.M. Lin Architect / The Observer Design Group 等），**不得憑語感改寫**。
+3. 按 Push，介面會先跑結構自檢並顯示 `git diff --stat` 等你確認，才 commit + push。
+
+還有待翻項目時 Push 會出示提醒但不擋——你可以只推中文先上線。
+
+寫回採位置索引切片，沒編輯到的部分保證 byte-identical，縮排與註解不會被重排。
+改動解析器後跑自檢：
+
+```bash
+node scripts/editor-parse.js
+```
+
+> ⚠️ `data-l` 的語意是「在這個模式顯示」，不是「這段文字是這種語言」。
+> 有些 `data-l="zh"` 節點裡放的是英文（見 `index.html` 開頭註解），不要「修正」它。
+
 ## 部署
+
+平常改文案走上面的編輯器。手動部署：
 
 ```bash
 git add -A && git commit -m "..." && git push
@@ -95,6 +129,6 @@ GitHub Pages 自動建置。查狀態：`gh api repos/thegr8gary/green-living-wo
 ## 相關
 
 - 需求來源：vault `30-筆記/會議紀錄/2026-08-18_碩論方向與工作坊檢討會議.md`
-- 視覺參考：`~/Desktop/Claude Code/分組報告連結啟動頁/index.html`
+- 視覺參考：`~/Desktop/claude-code/group-report-launcher/index.html`
 
-> 專案即時狀態不寫在這裡 —— 唯一來源是 vault 的 `20-資料夾概述/索引/專案總覽.md`。
+> 專案即時狀態不寫在這裡 —— 唯一來源是 vault 的 `20-資料夾概述/索引/專案索引.md`。
