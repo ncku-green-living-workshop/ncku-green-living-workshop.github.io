@@ -53,7 +53,7 @@
   html{-webkit-text-size-adjust:100%}
   body{
     margin:0; background:var(--bg); color:var(--ink);
-    font-family:"Noto Sans TC",-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+    font-family:"Noto Sans TC",-apple-system,"PingFang TC","Microsoft JhengHei","Noto Sans CJK TC","Source Han Sans TC",sans-serif;
     line-height:1.85; letter-spacing:.01em; -webkit-font-smoothing:antialiased;
   }
   /* 全站單一字族，靠字重與字距分層 */
@@ -164,8 +164,9 @@
     background:radial-gradient(12rem circle at var(--mx,50%) var(--my,50%),
       rgba(15,157,88,.18), transparent 70%);
   }
-  .day summary:hover::after,.day summary:focus-within::after{opacity:1}
-  .day summary:hover{background:var(--green-mist-2)}
+  .day summary:focus-within::after{opacity:1}
+  @media(hover:hover){.day summary:hover::after{opacity:1}}
+  @media(hover:hover){.day summary:hover{background:var(--green-mist-2)}}
   .day summary:focus-visible{outline:2px solid var(--green-deep); outline-offset:4px}
   .day[open] summary{background:var(--green-mist-2); border-radius:20px 20px 0 0}
   .day[open] summary::before{
@@ -213,7 +214,7 @@
     display:flex; gap:20px; align-items:baseline; flex-wrap:wrap;
   }
   .site summary::-webkit-details-marker{display:none}
-  .site summary:hover{background:var(--green-mist-2)}
+  @media(hover:hover){.site summary:hover{background:var(--green-mist-2)}}
   .site summary:focus-visible{outline:2px solid var(--green-deep); outline-offset:4px}
   .site[open] summary{background:var(--green-mist-2); border-radius:20px 20px 0 0}
   .site .tag{
@@ -233,7 +234,7 @@
     transition:transform .25s cubic-bezier(.3,1.4,.5,1);
   }
   @media (prefers-reduced-motion: no-preference){
-    .site summary:hover .si b{transform:scale(1.12)}
+    @media(hover:hover){.site summary:hover .si b{transform:scale(1.12)}}
   }
   .site .hint{
     font-size:.73rem; color:var(--ink-soft); letter-spacing:.1em; flex:none;
@@ -340,7 +341,7 @@
   @media (prefers-reduced-motion: no-preference){
     .wall .col{animation:wall-up 84s linear infinite}
     .wall .col.rev{animation-name:wall-down}
-    .wall:hover .col{animation-play-state:paused}
+    @media(hover:hover){.wall:hover .col{animation-play-state:paused}}
   }
   @keyframes wall-up{ from{transform:translateY(0)} to{transform:translateY(-50%)} }
   @keyframes wall-down{ from{transform:translateY(-50%)} to{transform:translateY(0)} }
@@ -363,7 +364,8 @@
     background:radial-gradient(14rem circle at var(--mx,50%) var(--my,50%),
       rgba(15,157,88,.16), transparent 70%);
   }
-  .grp summary:hover::before,.grp summary:focus-within::before{opacity:1}
+  .grp summary:focus-within::before{opacity:1}
+  @media(hover:hover){.grp summary:hover::before{opacity:1}}
   .grp summary:focus-visible{outline:2px solid var(--green-deep); outline-offset:4px}
   .grp .g{font-size:.7rem; color:var(--green-deep); letter-spacing:.2em; font-weight:600; flex:none; min-width:74px}
   .grp .topic{font-weight:500; font-size:1.02rem; letter-spacing:.02em; flex:1 1 14rem; line-height:1.45}
@@ -376,7 +378,7 @@
     text-decoration:none; padding:9px 16px; border-radius:16px;
     background:rgba(255,255,255,.72); font-weight:500; white-space:nowrap;
   }
-  .jb:hover{background:#fff}
+  @media(hover:hover){.jb:hover{background:#fff}}
   .jb:focus-visible{outline:2px solid var(--green-deep); outline-offset:2px}
 
 
@@ -394,7 +396,7 @@
     box-shadow:0 3px 14px rgba(8,99,58,.22);
   }
   .nav.prev{left:12px} .nav.next{right:12px}
-  .nav:hover{background:#fff}
+  @media(hover:hover){.nav:hover{background:#fff}}
   .nav:focus-visible{outline:2px solid var(--green-deep); outline-offset:3px}
   .nav[disabled]{opacity:.35; cursor:default}
   .cnt{
@@ -474,29 +476,29 @@
     .day summary{transition:background-color .3s ease, transform .3s cubic-bezier(.22,1,.36,1), box-shadow .35s ease}
     .day summary::before{transition:box-shadow .45s cubic-bezier(.22,1,.36,1), background-color .45s ease, transform .45s cubic-bezier(.22,1,.36,1)}
     .day summary::after{transition:opacity .35s ease}
-    .day summary:hover{
+    @media(hover:hover){.day summary:hover{
       transform:translateX(6px);
       box-shadow:0 12px 26px -14px rgba(8,99,58,.28);
-    }
-    .day summary:hover::before{           /* 節點放大 + 光環擴散 */
+    }}
+    @media(hover:hover){.day summary:hover::before{           /* 節點放大 + 光環擴散 */
       transform:scale(1.25);
       box-shadow:0 0 0 2px var(--green), 0 0 0 12px rgba(15,157,88,.16);
-    }
+    }}
     .site summary,.site .arw{transition:background-color .3s ease, transform .35s cubic-bezier(.22,1,.36,1)}
-    .site summary:hover .arw{transform:translateX(4px)}
-    .site[open] summary:hover .arw{transform:rotate(90deg)}
+    @media(hover:hover){.site summary:hover .arw{transform:translateX(4px)}}
+    @media(hover:hover){.site[open] summary:hover .arw{transform:rotate(90deg)}}
     .srow{transition:background-color .25s ease}
     .grp summary{transition:transform .35s cubic-bezier(.22,1,.36,1), box-shadow .35s ease, background-color .3s ease}
     .grp summary::before{transition:opacity .35s ease}
-    .grp summary:hover{
+    @media(hover:hover){.grp summary:hover{
       transform:translateY(-4px);
       box-shadow:0 14px 30px -12px rgba(8,99,58,.3);
       background:var(--bar-hover);
-    }
+    }}
     .th img{transition:opacity .2s ease}
     .pg{transition:opacity .18s ease}
     .shot{transition:transform .4s cubic-bezier(.22,1,.36,1)}
-    .shot:hover{transform:scale(1.03)}
+    @media(hover:hover){.shot:hover{transform:scale(1.03)}}
 
     /* 捲動浮現：預設可見，動畫是加上去的 */
     @supports (animation-timeline: view()){
@@ -537,8 +539,8 @@
     flex:none; width:11px; height:11px; border-radius:50%; position:relative; z-index:1;
     background:#fff; box-shadow:0 0 0 2px var(--green-mist);
   }
-  .toc a:hover{color:var(--green-deep)}
-  .toc a:hover .tn{box-shadow:0 0 0 2px var(--green), 0 0 0 6px rgba(15,157,88,.12)}
+  @media(hover:hover){.toc a:hover{color:var(--green-deep)}}
+  @media(hover:hover){.toc a:hover .tn{box-shadow:0 0 0 2px var(--green), 0 0 0 6px rgba(15,157,88,.12)}}
   .toc a[aria-current="true"]{color:var(--green-deep); font-weight:600}
   .toc a[aria-current="true"] .tn{background:var(--green); box-shadow:0 0 0 2px var(--green), 0 0 0 6px rgba(15,157,88,.14)}
   .toc a:focus-visible{outline:2px solid var(--green-deep); outline-offset:2px}
@@ -589,7 +591,7 @@
     .toc{transition:opacity .35s ease, transform .45s cubic-bezier(.2,.8,.2,1)}
     .toc a, .toc .tn{transition:color .25s ease, background-color .25s ease, box-shadow .25s ease}
     .toc .tn{transition-property:background-color, box-shadow, transform}
-    .toc a:hover .tn{transform:scale(1.12)}
+    @media(hover:hover){.toc a:hover .tn{transform:scale(1.12)}}
     .toc-fill{transition:height .5s cubic-bezier(.2,.8,.2,1)}
     .toc-list{transition:opacity .22s ease, transform .3s cubic-bezier(.2,.9,.3,1.2), visibility 0s linear .3s}
     .toc.open .toc-list{transition:opacity .22s ease, transform .3s cubic-bezier(.2,.9,.3,1.2), visibility 0s}
