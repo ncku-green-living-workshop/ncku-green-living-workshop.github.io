@@ -68,7 +68,7 @@ function sectionAt(sections, pos) {
   return name;
 }
 
-/** 1. 79 組 zh/en 散文 */
+/** 1. 78 組 zh/en 散文 */
 function parseProse(src, bodyStart, sections) {
   const re = new RegExp(`<(\\w+)(${ATTRS}\\bdata-l="(zh|en)"${ATTRS})>`, 'g');
   re.lastIndex = bodyStart;
@@ -260,7 +260,7 @@ if (require.main === module) {
 
   console.log('editor-parse 自檢\n');
 
-  ok('解析出 79 組 zh/en 散文', () => assert.strictEqual(c.prose.length, 79));
+  ok('解析出 78 組 zh/en 散文', () => assert.strictEqual(c.prose.length, 78));
 
   ok('序列嚴格 zh/en 交替（parse 內建檢查未拋錯）', () => {
     assert.ok(c.prose.every(p => typeof p.zh === 'string' && typeof p.en === 'string'));

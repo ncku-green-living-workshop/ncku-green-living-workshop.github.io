@@ -244,15 +244,23 @@
   /* 三時代：橫向並列，以直線分隔 */
   /* 三時代軸線：一條線串三個節點，沿用綠廊時間軸語彙 */
   /* 三時代波浪軸線：線與節點都由 SVG 畫，節點在三等分中心，左右對稱 */
-  .eras{position:relative; margin:14px 0 30px; padding-top:52px}
+  .eras{position:relative; margin:14px 0 30px; padding-top:76px}
+  /* 西元年在各節點正上方：與 eracols 同為三等分，欄中心＝節點 x */
+  .erayears{
+    position:absolute; top:0; left:0; width:100%;
+    display:grid; grid-template-columns:repeat(3,1fr); text-align:center;
+    font-size:.8rem; font-weight:600; letter-spacing:.08em; color:var(--green-deep);
+    font-variant-numeric:tabular-nums; line-height:1;
+  }
+  .era .ynum{display:none}
   .wave{
-    position:absolute; top:0; left:0; width:100%; height:44px;
+    position:absolute; top:24px; left:0; width:100%; height:44px;
     overflow:visible; display:block;
   }
   .wave .wline{fill:none; stroke:url(#wv); stroke-width:2.2; stroke-linecap:round}
   .wave .wnode{fill:var(--green-mist); stroke:var(--green); stroke-width:2.2}
   .wave .wnode.now{fill:var(--green)}    /* 「今日」實心，標示現在 */
-  .eracols{display:grid; grid-template-columns:repeat(4,1fr)}
+  .eracols{display:grid; grid-template-columns:repeat(3,1fr)}
   .era{text-align:center; padding:0 12px}
   .era .yr{
     display:block; font-size:.65rem; font-weight:600; color:var(--green-deep);
@@ -560,6 +568,9 @@
     .site .arw{width:34px; height:34px}
     .eras{padding:0 0 0 26px}
     .wave{display:none}                    /* 直向波浪在窄螢幕過於雜亂，改用直線 */
+    .erayears{display:none}
+    .era .ynum{display:block; font-size:.8rem; font-weight:600; color:var(--green-deep);
+      letter-spacing:.08em; margin-bottom:2px; font-variant-numeric:tabular-nums}
     .eras::before{content:""; position:absolute; top:8px; bottom:14px; left:5px; width:2px;
       background:linear-gradient(180deg, rgba(15,157,88,.5), rgba(15,157,88,.28))}
     .eracols{grid-template-columns:1fr}
@@ -609,8 +620,8 @@
           A seven-day international design workshop hosted by the Department of Architecture,
           National Cheng Kung University (NCKU) in Tainan, Taiwan, bringing together faculty and students from Japan, Indonesia, Thailand,
           the Philippines, Vietnam and Taiwan. Sited on the
-          <strong>northern section of the Tainan railway greenway</strong> — a linear park created after
-          the city's railway was moved underground — it explores community life, public space and aging
+          <strong>northern section of the Tainan railway greenway</strong> — a linear park planned on the
+          land freed by moving the city's railway underground — it explores community life, public space and aging
           in place in a super-aged society, with seven groups each putting forward a design proposal.
         </p>
       </div>
@@ -628,20 +639,21 @@
       </summary>
       <div class="body">
         <p class="lede" data-l="zh">
-          工作坊的基地是<strong>台南鐵路地下化後的南鐵綠廊北段</strong>。
-          選擇這裡，是因為這條廊帶並非新生的空地——同一條線先後是城牆、園道、鐵道，
-          如今隨鐵路地下化再次空出來。工作坊要問的是：當台南邁入超高齡社會，
+          工作坊的基地是<strong>台南鐵路地下化後即將空出的南鐵綠廊北段</strong>。
+          選擇這裡，是因為這條廊帶並非新生的空地——1900 年縱貫鐵路鑿穿清代府城城牆進城，
+          2026 年鐵路轉入地下，這條線再次空了出來。工作坊要問的是：當台南邁入超高齡社會，
           這條被反覆重寫的廊帶，這一次應該為誰而寫。
         </p>
         <p class="lede" data-l="en">
-          The workshop is sited on the <strong>northern section of the greenway left by the undergrounding
-          of the Tainan railway</strong>. It was chosen because this corridor is not newly vacant land — the
-          same line has been a city wall, a parkway and a railway in turn, and has now been freed once
-          again. The question the workshop asks is this: as Tainan enters a super-aged society, who should
+          The workshop is sited on the <strong>northern section of the corridor being freed up by the
+          undergrounding of the Tainan railway</strong>. It was chosen because this is not newly vacant land —
+          in 1900 the railway broke through the Qing-dynasty city wall to enter Tainan, and in 2026 the
+          trains moved underground, leaving the line open once again. The question the workshop asks is this: as Tainan enters a super-aged society, who should
           this repeatedly rewritten corridor be redesigned for this time?
         </p>
 
         <div class="eras">
+          <div class="erayears" aria-hidden="true"><span>1725</span><span>1900</span><span>2026</span></div>
           <svg class="wave" viewBox="0 0 1000 40" preserveAspectRatio="none" aria-hidden="true" focusable="false">
             <defs>
               <linearGradient id="wv" x1="0" y1="0" x2="1" y2="0">
@@ -651,25 +663,23 @@
               </linearGradient>
             </defs>
             <path class="wline" d="M0,20.00 L8,18.90 L16,17.80 L24,16.73 L32,15.69 L40,14.70 L48,13.76 L56,12.88 L64,12.08 L72,11.35 L80,10.71 L88,10.17 L96,9.72 L104,9.38 L112,9.15 L120,9.02 L128,9.01 L136,9.10 L144,9.31 L152,9.63 L160,10.05 L168,10.57 L176,11.18 L184,11.89 L192,12.67 L200,13.53 L208,14.46 L216,15.44 L224,16.47 L232,17.53 L240,18.62 L248,19.72 L256,20.83 L264,21.93 L272,23.00 L280,24.05 L288,25.06 L296,26.01 L304,26.90 L312,27.73 L320,28.48 L328,29.14 L336,29.71 L344,30.18 L352,30.54 L360,30.81 L368,30.96 L376,31.00 L384,30.93 L392,30.75 L400,30.46 L408,30.07 L416,29.57 L424,28.98 L432,28.30 L440,27.53 L448,26.69 L456,25.78 L464,24.81 L472,23.79 L480,22.74 L488,21.65 L496,20.55 L504,19.45 L512,18.35 L520,17.26 L528,16.21 L536,15.19 L544,14.22 L552,13.31 L560,12.47 L568,11.70 L576,11.02 L584,10.43 L592,9.93 L600,9.54 L608,9.25 L616,9.07 L624,9.00 L632,9.04 L640,9.19 L648,9.46 L656,9.82 L664,10.29 L672,10.86 L680,11.52 L688,12.27 L696,13.10 L704,13.99 L712,14.94 L720,15.95 L728,17.00 L736,18.07 L744,19.17 L752,20.28 L760,21.38 L768,22.47 L776,23.53 L784,24.56 L792,25.54 L800,26.47 L808,27.33 L816,28.11 L824,28.82 L832,29.43 L840,29.95 L848,30.37 L856,30.69 L864,30.90 L872,30.99 L880,30.98 L888,30.85 L896,30.62 L904,30.28 L912,29.83 L920,29.29 L928,28.65 L936,27.92 L944,27.12 L952,26.24 L960,25.30 L968,24.31 L976,23.27 L984,22.20 L992,21.10 L1000,20.00"/>
-            <ellipse class="wnode" cx="125.00" cy="9.01" rx="6" ry="6"/>
-            <ellipse class="wnode" cx="375.00" cy="31.00" rx="6" ry="6"/>
-            <ellipse class="wnode" cx="625.00" cy="9.00" rx="6" ry="6"/>
-            <ellipse class="wnode now" cx="875.00" cy="30.99" rx="6" ry="6"/>
+            <ellipse class="wnode" cx="166.67" cy="10.47" rx="6" ry="6"/>
+            <ellipse class="wnode" cx="500.00" cy="20.00" rx="6" ry="6"/>
+            <ellipse class="wnode now" cx="833.33" cy="29.53" rx="6" ry="6"/>
           </svg>
           <div class="eracols">
             <div class="era">
+              <span class="ynum">1725</span>
               <span class="yr en">QING DYNASTY</span>
               <span class="what" data-l="zh">城牆</span><span class="what" data-l="en">City Wall</span>
             </div>
             <div class="era">
+              <span class="ynum">1900</span>
               <span class="yr en">JAPANESE COLONIAL PERIOD</span>
-              <span class="what" data-l="zh">園道</span><span class="what" data-l="en">Parkway</span>
-            </div>
-            <div class="era">
-              <span class="yr en">BEFORE UNDERGROUNDING</span>
               <span class="what" data-l="zh">鐵道</span><span class="what" data-l="en">Railway</span>
             </div>
             <div class="era">
+              <span class="ynum">2026</span>
               <span class="yr en">TODAY</span>
               <span class="what" data-l="zh">鐵路地下化綠廊</span><span class="what" data-l="en">Railway Greenway</span>
             </div>
@@ -1358,7 +1368,7 @@ document.querySelectorAll('.grp').forEach(grp => {
   document.addEventListener('langchange', () => show(i));
 });
 
-// 四時代波浪：SVG 用 preserveAspectRatio=none 撐滿寬度，x 與 y 的縮放比不同，
+// 三時代波浪：SVG 用 preserveAspectRatio=none 撐滿寬度，x 與 y 的縮放比不同，
 // 圓會被壓成橢圓。依實際縮放比反向補償 rx，讓節點永遠是正圓。
 (() => {
   const svg = document.querySelector('.wave');
