@@ -342,6 +342,7 @@
     .wall .col{animation:wall-up 84s linear infinite}
     .wall .col.rev{animation-name:wall-down}
     @media(hover:hover){.wall:hover .col{animation-play-state:paused}}
+    .wall.paused .col{animation-play-state:paused}   /* 點一下切換：手機沒有 hover */
   }
   @keyframes wall-up{ from{transform:translateY(0)} to{transform:translateY(-50%)} }
   @keyframes wall-down{ from{transform:translateY(-50%)} to{transform:translateY(0)} }
@@ -748,7 +749,7 @@
           工作坊的基地是<strong>台南鐵路地下化後即將空出的南鐵綠廊北段</strong>。
           選擇這裡，是因為這條廊帶並非新生的空地——1900 年縱貫鐵路鑿穿清代府城城牆進城，
           2026 年鐵路轉入地下，這條線再次空了出來。其間，1941 年的日治都市計畫曾規劃一條 40 公尺寬的環狀公園道橫越這條線，
-          戰後才陸續闢為今天的東豐路、林森路等，其中東豐路正是基地 B、C 區的分界。工作坊要問的是：當台南邁入超高齡社會，
+          今天的東豐路、林森路都屬於它，其中林森路一段到戰後才開闢；東豐路正是基地 B、C 區的分界。工作坊要問的是：當台南邁入超高齡社會，
           這條被反覆重寫的廊帶，這一次應該為誰而寫。
         </p>
         <p class="lede" data-l="en">
@@ -756,8 +757,9 @@
           undergrounding of the Tainan railway</strong>. It was chosen because this is not newly vacant land —
           in 1900 the railway broke through the Qing-dynasty city wall to enter Tainan, and in 2026 the
           trains moved underground, leaving the line open once again. In between, the 1941 Japanese colonial city
-          plan laid out a 40-metre ring parkway crossing the line; it was only built after the war, as today's
-          Dongfeng Rd., Linsen Rd. and others — and Dongfeng Rd. is the boundary between Sites B and C. The question the workshop asks is this: as Tainan enters a super-aged society, who should
+          plan laid out a 40-metre ring parkway crossing the line. Today's Dongfeng Rd. and Linsen Rd. are part
+          of it, though the Linsen Rd. stretch was only built after the war; Dongfeng Rd. is the boundary
+          between Sites B and C. The question the workshop asks is this: as Tainan enters a super-aged society, who should
           this repeatedly rewritten corridor be redesigned for this time?
         </p>
 
@@ -790,7 +792,7 @@
             <div class="era">
               <span class="ynum">2026</span>
               <span class="yr en">TODAY</span>
-              <span class="what" data-l="zh">鐵路地下化綠廊</span><span class="what" data-l="en">Railway Greenway</span>
+              <span class="what" data-l="zh">鐵路地下化綠廊（規劃中）</span><span class="what" data-l="en">Railway Greenway (planned)</span>
             </div>
           </div>
         </div>
@@ -948,7 +950,7 @@
 
   <section id="moments">
     <h3 class="sec"><span class="lbl en">MOMENTS</span><span data-l="zh">工作坊現場</span><span data-l="en">Workshop Moments</span></h3>
-    <p class="lede" data-l="zh">每日精選之外的其他現場紀錄。滑鼠移上去可暫停。</p><p class="lede" data-l="en">More photos from the workshop beyond the daily selections. Hover or tap to pause.</p>
+    <p class="lede" data-l="zh">每日精選之外的其他現場紀錄。滑鼠移上去或點一下可暫停。</p><p class="lede" data-l="en">More photos from the workshop beyond the daily selections. Hover or tap to pause.</p>
     <div class="wall reveal">
     <div class="col" aria-hidden="true">
       <img class="pic t1" src="assets/photos/d1-05.jpg" alt="" loading="eager" width="1400" height="933">
@@ -1720,6 +1722,10 @@ document.querySelectorAll('.jb').forEach(a => {
   addEventListener('keydown', e => { if (e.key === 'Escape' && toc.classList.contains('open')) { close(); btn.focus(); } });
   document.addEventListener('click', e => { if (!toc.contains(e.target)) close(); });
 })();
+</script>
+<script>
+// 照片牆：點一下暫停／再點一下繼續（觸控裝置沒有 hover 可用）
+document.querySelectorAll('.wall').forEach(w => w.addEventListener('click', () => w.classList.toggle('paused')));
 </script>
 </body>
 </html>
