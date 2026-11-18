@@ -2,7 +2,7 @@
 
 「超高齡社會下的綠色生活」國際工作坊（2026/8/1–8/7）的成果介紹網站。
 
-**線上版本**：https://thegr8gary.github.io/green-living-workshop/
+**線上版本**：https://ncku-green-living-workshop.github.io/
 
 老師於 2026-08-18 交辦，起因是 K-Bus（音譯）希望把工作坊成果與過程放上網路，讓各參與國的老師能帶回自己的學校介紹與交流。
 
@@ -118,7 +118,7 @@ node scripts/editor-parse.js
 git add -A && git commit -m "..." && git push
 ```
 
-GitHub Pages 自動建置。查狀態：`gh api repos/thegr8gary/green-living-workshop/pages --jq '.status'`
+GitHub Pages 自動建置。查狀態：`gh api repos/ncku-green-living-workshop/ncku-green-living-workshop.github.io/pages --jq '.status'`
 
 ## 已知落差
 
