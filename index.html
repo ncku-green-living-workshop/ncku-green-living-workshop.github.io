@@ -120,7 +120,8 @@
   }
 
   section{padding:9vh 0 0; scroll-margin-top:12px}
-  h3.sec{font-size:1.24rem; margin:0 0 14px; font-weight:600; letter-spacing:.04em}
+  /* 大標是描述句，隨螢幕放大：約 21px（手機）→ 27px（桌機），對齊 design-tokens 區塊標題 */
+  h3.sec{font-size:clamp(1.3rem, 1.1rem + .8vw, 1.7rem); line-height:1.35; margin:0 0 18px; font-weight:600; letter-spacing:.04em}
   h3.sec .lbl{
     display:block; font-size:.67rem; font-weight:500; color:var(--green-text);
     letter-spacing:.24em; margin-bottom:10px;
@@ -138,7 +139,7 @@
     background:radial-gradient(circle,rgba(15,157,88,.13),transparent 70%)}
   .about .ain{
     position:relative; z-index:2;
-    display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:36px; align-items:center;
+    display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:36px; align-items:start;
   }
   /* 右欄願景圖：白襯底與 SITE 地圖同語彙，可點開燈箱 */
   .avis{margin:0}
@@ -259,10 +260,6 @@
   @media (prefers-reduced-motion: no-preference){
     @media(hover:hover){.site summary:hover .si b{transform:scale(1.12)}}
   }
-  .site .hint{
-    font-size:.73rem; color:var(--ink-soft); letter-spacing:.1em; flex:none;
-  }
-  .site[open] .hint{opacity:0}
   .site .arw{
     flex:none; width:38px; height:38px; border-radius:50%;
     background:var(--green-deep); color:#fff; display:grid; place-items:center;
@@ -739,7 +736,9 @@
     .site .body{padding:22px 14px 26px}
     .fig .mount{padding:8px}
     .zones{inset:8px; width:calc(100% - 16px); height:calc(100% - 16px)}
-    .site .hint{display:none}
+    /* 四個基地代號排成整齊的 2×2，名稱太長就在圓點右側換行 */
+    .site .ttl .sub{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:8px 12px}
+    .site .ttl .si{white-space:normal; align-items:flex-start; line-height:1.4}
     .site .tag{width:100%}                 /* SITE 標籤自成一行 */
     .site .ttl{flex:1 1 0; min-width:0}     /* 標題可收縮，讓箭頭留在同一行 */
     .site .arw{width:34px; height:34px}
@@ -849,7 +848,6 @@
       <summary>
         <span class="tag en">SITE</span>
         <span class="ttl" data-l="zh">南鐵綠廊北段・四個基地<span class="sub"><span class="si"><b>A</b>站前廣場</span><span class="si"><b>B</b>通學廊道</span><span class="si"><b>C</b>綠廊中段</span><span class="si"><b>D</b>綠廊北段</span></span></span><span class="ttl" data-l="en">Northern Section · Four Sites<span class="sub"><span class="si"><b>A</b>Station Plaza</span><span class="si"><b>B</b>School Corridor</span><span class="si"><b>C</b>Middle Greenway</span><span class="si"><b>D</b>Northern Greenway</span></span></span>
-        <span class="hint" data-l="zh">城牆 → 鐵道 → 綠廊</span><span class="hint" data-l="en">City wall → railway → greenway</span>
         <span class="arw" aria-hidden="true">→</span>
       </summary>
       <div class="body">
