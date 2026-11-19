@@ -633,6 +633,19 @@
   @media(prefers-reduced-motion:no-preference){
     .langsw,.langsw button{transition:background-color .3s ease,color .3s ease,box-shadow .3s ease}
   }
+  /* 寬螢幕：與左側目錄左右對稱——外緣距離同 .toc 的 left 公式、垂直置中、直排 */
+  @media(min-width:1240px){
+    .langsw{
+      top:50%; right:max(20px, calc((100vw - 920px) / 2 - 224px));
+      transform:translateY(-50%); flex-direction:column; padding:6px; border-radius:20px;
+    }
+    .langsw button{padding:9px 0 9px .14em}
+    .langsw.on-light{
+      background:rgba(227,241,233,.86);
+      -webkit-backdrop-filter:blur(10px) saturate(1.2); backdrop-filter:blur(10px) saturate(1.2);
+      box-shadow:0 2px 18px rgba(8,99,58,.08);
+    }
+  }
   @media(max-width:640px){
     .langsw{top:14px; right:14px; padding:3px}
     .langsw button{padding:6px 0 6px .14em; min-width:46px; font-size:.7rem}
@@ -1648,14 +1661,23 @@ document.querySelectorAll('.jb').forEach(a => {
   btns.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.setLang === cur)));
   applyAttrs();
 
-  // 捲離 hero 就換成白底配色。用 IntersectionObserver 而非 scroll 監聽，
-  // 不用自己寫節流
+  // 按鈕中心一旦不在 hero 上就換成淺色配色。寬螢幕時按鈕在右側垂直置中、
+  // 窄螢幕在右上角，位置不同，所以直接比「hero 底緣」與「按鈕中心」，兩種版面通用
   const hero = document.querySelector('header');
-  if (hero && 'IntersectionObserver' in window) {
-    new IntersectionObserver(
-      ([e]) => sw.classList.toggle('on-light', !e.isIntersecting),
-      { rootMargin: '-56px 0px 0px 0px', threshold: 0 }
-    ).observe(hero);
+  if (hero) {
+    let raf = 0;
+    const check = () => {
+      raf = 0;
+      const r = sw.getBoundingClientRect();
+      // 按鈕都在畫面右側，那裡的綠底只到 clip-path 的右緣（桌機 78%、手機 88%），不是 header 外框底
+      const h = hero.getBoundingClientRect();
+      const greenBottom = h.top + h.height * (matchMedia('(max-width:640px)').matches ? .88 : .78);
+      sw.classList.toggle('on-light', greenBottom < r.top + r.height / 2);
+    };
+    const queue = () => { if (!raf) raf = requestAnimationFrame(check); };
+    addEventListener('scroll', queue, { passive: true });
+    addEventListener('resize', queue);
+    check();
   }
 })();
 </script>
