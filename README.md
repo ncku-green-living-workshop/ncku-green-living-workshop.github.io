@@ -48,6 +48,7 @@ html[lang="en"]  [data-l="zh"]{display:none !important}
 | `SPEC.md` | 內容與形式規格書，含老師口頭指示的出處時間戳 |
 | `scripts/optimize-photos.sh` | 照片批次壓縮 |
 | `scripts/build-media.sh` | 影片壓縮 + 簡報 PDF 轉圖 |
+| `scripts/make-thumbs.sh` | 照片與論壇照片的 640px 縮圖（頁面顯示用，原圖留給燈箱） |
 | `assets/photos/` | 96 張壓縮後照片（每日 16 張） |
 | `assets/slides/gN/` | 各組簡報逐頁 JPEG |
 | `assets/video/` | 7 支壓縮後影片 + poster |
@@ -67,11 +68,14 @@ html[lang="en"]  [data-l="zh"]{display:none !important}
 # 照片：assets/raw/D1..D7/ → assets/photos/
 MAX_PER_DAY=16 ./scripts/optimize-photos.sh
 
+# 縮圖：assets/{photos,forum}/ → assets/thumb/{photos,forum}/（新增或替換照片後要重跑）
+./scripts/make-thumbs.sh
+
 # 影片與簡報：assets/videos/ 與 ~/Downloads/Group N.pdf → assets/video/, assets/slides/
 ./scripts/build-media.sh
 ```
 
-兩支腳本都會跳過已存在的輸出，可重複執行。需要 `ffmpeg` 與 `pdftoppm`（`brew install ffmpeg poppler`）。
+三支腳本都會跳過已存在的輸出，可重複執行。需要 `ffmpeg` 與 `pdftoppm`（`brew install ffmpeg poppler`）。
 
 > ⚠️ **`assets/photos/` 內有人工指定來源的照片**（如 `d3-01`、`d3-02`、`d3-04`、`d6-02`、`d6-03`、`d6-04`），
 > 它們的來源檔名與 `assets/raw/` 的排序序號無關。`optimize-photos.sh` 是依序號輸出的，

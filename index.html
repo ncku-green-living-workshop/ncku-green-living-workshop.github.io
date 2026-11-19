@@ -13,7 +13,10 @@
 }catch(e){}})();
 </script>
 <title>超高齡社會下的綠色生活｜2026 NCKU 國際工作坊</title>
-<meta name="robots" content="noindex, nofollow">
+<link rel="canonical" href="https://ncku-green-living-workshop.github.io/">
+<link rel="alternate" hreflang="zh-Hant" href="https://ncku-green-living-workshop.github.io/">
+<link rel="alternate" hreflang="en" href="https://ncku-green-living-workshop.github.io/?lang=en">
+<link rel="alternate" hreflang="x-default" href="https://ncku-green-living-workshop.github.io/">
 <meta property="og:type" content="website">
 <meta property="og:title" content="超高齡社會下的綠色生活｜2026 NCKU 國際工作坊">
 <meta property="og:description" content="2026 年 8 月 1–7 日於國立成功大學舉行的國際設計工作坊成果網站。以台南南鐵綠廊北段為基地，探討超高齡社會的社區生活與公共空間。">
@@ -22,6 +25,7 @@
 <meta property="og:image:height" content="630">
 <meta property="og:url" content="https://ncku-green-living-workshop.github.io/">
 <meta property="og:locale" content="zh_TW">
+<meta property="og:locale:alternate" content="en_US">
 <meta property="og:site_name" content="National Cheng Kung University">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="超高齡社會下的綠色生活｜2026 NCKU 國際工作坊">
@@ -29,7 +33,7 @@
 <meta name="twitter:image" content="https://ncku-green-living-workshop.github.io/assets/og-cover.jpg">
 <meta name="description" content="2026 年 8 月 1–7 日於國立成功大學舉行的國際設計工作坊成果網站。以台南南鐵綠廊北段為基地，探討超高齡社會的社區生活與公共空間。">
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@200;300;400;500;700;900&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;600;700&display=swap">
 <style>
   /* ── design-tokens（依 web-design skill 第一步定案，對比實算通過）──
      深階綠升為文字主力：#0f9d58 當內文只有 3.51:1，不到 AA 4.5:1
@@ -342,7 +346,6 @@
     .wall .col{animation:wall-up 84s linear infinite}
     .wall .col.rev{animation-name:wall-down}
     @media(hover:hover){.wall:hover .col{animation-play-state:paused}}
-    .wall.paused .col{animation-play-state:paused}   /* 點一下切換：手機沒有 hover */
   }
   @keyframes wall-up{ from{transform:translateY(0)} to{transform:translateY(-50%)} }
   @keyframes wall-down{ from{transform:translateY(-50%)} to{transform:translateY(0)} }
@@ -524,6 +527,59 @@
   }
   @media print{ .reveal{animation:none; opacity:1} .day .body{display:block !important} }
 
+  /* ── 照片燈箱 ──
+     淡綠紗外框＋深綠圓形控制鈕，沿用目錄與語言鈕的語彙；背景是壓暗的深綠 */
+  .shot,.fpic,.wall .pic{cursor:zoom-in}
+  .shot:focus-visible,.fpic:focus-visible{outline:2px solid var(--green-deep); outline-offset:3px}
+  .lb{
+    border:0; padding:0; margin:0; background:transparent; color:var(--ink);
+    width:100vw; height:100vh; height:100dvh; max-width:none; max-height:none; overflow:hidden;
+  }
+  .lb[open]{display:grid; place-items:center}
+  .lb::backdrop{background:rgba(10,38,25,.78); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px)}
+  .lb-fig{
+    margin:0; padding:12px 12px 10px; border-radius:20px; max-width:min(92vw,1240px);
+    background:rgba(227,241,233,.94); box-shadow:0 20px 60px rgba(0,0,0,.28);
+    touch-action:pan-y;
+  }
+  .lb-img{display:block; width:auto; height:auto; max-width:100%; max-height:calc(100dvh - 150px); border-radius:12px; margin:0 auto; background:var(--green-mist)}
+  .lb-cap{display:flex; justify-content:space-between; gap:16px; padding:9px 4px 0; font-size:.84rem; color:var(--ink-soft); line-height:1.5}
+  .lb-n{flex:none; color:var(--green-deep); font-weight:600; letter-spacing:.08em; font-variant-numeric:tabular-nums}
+  .lb-btn{
+    position:fixed; width:48px; height:48px; border:0; border-radius:50%; cursor:pointer; display:grid; place-items:center;
+    background:rgba(227,241,233,.94); color:var(--green-deep); box-shadow:0 4px 16px rgba(0,0,0,.18);
+  }
+  .lb-btn svg{width:18px; height:18px; fill:none; stroke:currentColor; stroke-width:2; stroke-linecap:round; stroke-linejoin:round}
+  .lb-btn:focus-visible{outline:2px solid #fff; outline-offset:3px}
+  .lb-btn[hidden]{display:none}
+  .lb-x{top:16px; right:16px}
+  .lb-prev{left:16px; top:50%; margin-top:-24px}
+  .lb-next{right:16px; top:50%; margin-top:-24px}
+  @media(max-width:640px){
+    .lb-fig{padding:8px 8px 6px; border-radius:16px}
+    .lb-prev,.lb-next{top:auto; bottom:16px; margin-top:0}
+    .lb-img{max-height:calc(100dvh - 190px)}
+  }
+  @media(hover:hover){ .lb-btn:hover{background:#fff} }
+  @media(prefers-reduced-motion:no-preference){
+    .lb[open] .lb-fig{animation:lb-in .32s cubic-bezier(.2,.8,.2,1)}
+    .lb[open]::backdrop{animation:lb-fade .3s ease}
+    .lb-img{transition:opacity .2s ease}
+    .lb-img.loading{opacity:.35}
+    .lb-btn{transition:background-color .2s ease, transform .2s ease}
+    @media(hover:hover){ .lb-btn:hover{transform:scale(1.06)} }
+  }
+  @keyframes lb-in{from{opacity:0; transform:translateY(10px) scale(.97)}}
+  @keyframes lb-fade{from{opacity:0}}
+  @media print{ .lb{display:none} }
+
+  /* 觸控尺寸：窄螢幕上可點範圍至少 44px（只加內距，不放大字） */
+  @media(max-width:1239.98px){
+    .langsw button{min-height:44px; min-width:56px}
+    .toc-btn{min-height:44px}
+    .toc a{min-height:44px}
+  }
+
   /* ── 浮動目錄 ──
      語彙沿用 SITE 時間軸：細線＋圓點、讀到的那一節實心、線跟著填色。
      寬螢幕放在 .wrap 左側留白（920px 置中 → 留白 = (100vw-920px)/2）；
@@ -695,6 +751,17 @@
   <button type="button" data-set-lang="zh" aria-pressed="true" lang="zh-Hant" aria-label="中文">中</button>
   <button type="button" data-set-lang="en" aria-pressed="false" lang="en" aria-label="English">EN</button>
 </div>
+
+<!-- 照片燈箱：點每日照片、照片牆、論壇照片放大；原生 dialog 負責焦點鎖定與 Esc -->
+<dialog class="lb" aria-label="照片檢視 / Photo viewer">
+  <figure class="lb-fig">
+    <img class="lb-img" alt="">
+    <figcaption class="lb-cap"><span class="lb-txt"></span><span class="lb-n" aria-live="polite"></span></figcaption>
+  </figure>
+  <button type="button" class="lb-btn lb-x" data-lb="close"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M4 4l8 8M12 4l-8 8"/></svg></button>
+  <button type="button" class="lb-btn lb-prev" data-lb="prev"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M10 3L5 8l5 5"/></svg></button>
+  <button type="button" class="lb-btn lb-next" data-lb="next"><svg viewBox="0 0 16 16" aria-hidden="true"><path d="M6 3l5 5-5 5"/></svg></button>
+</dialog>
 
 <!-- 浮動目錄：寬螢幕是左側軸線，窄螢幕收成左下角按鈕（見 .toc 樣式與 script） -->
 <nav class="toc" aria-label="目錄 / Contents">
@@ -904,7 +971,7 @@
           <span data-l="zh">基地介紹與設計課題說明，接續設計思考與社區設計、高齡生活與都市再生、社區生活與公共空間三場講座。</span>
           <span data-l="en">An introduction to the site and the design brief, followed by three lectures: design thinking and community design, aging and urban regeneration, and community life and public space.</span>
           <div class="who-line"><span data-l="zh">講者　</span><span data-l="en">Speakers: </span><span class="who">Chia-Han Yang · Chi-Pang Lu · Shih-Ming Chen</span></div>
-          <div class="shots" data-day="d1" data-alt-en="Day 1 — opening and lectures"><img class="shot" src="assets/photos/d1-01.jpg" alt="Day 1 開幕與講座" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d1-02.jpg" alt="Day 1 開幕與講座" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d1-03.jpg" alt="Day 1 開幕與講座" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d1-04.jpg" alt="Day 1 開幕與講座" loading="lazy" width="1400" height="933"></div>
+          <div class="shots" data-day="d1" data-alt-en="Day 1 — opening and lectures"><img class="shot" src="assets/thumb/photos/d1-01.jpg" srcset="assets/thumb/photos/d1-01.jpg 640w, assets/photos/d1-01.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d1-01.jpg" alt="Day 1 開幕與講座" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d1-02.jpg" srcset="assets/thumb/photos/d1-02.jpg 640w, assets/photos/d1-02.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d1-02.jpg" alt="Day 1 開幕與講座" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d1-03.jpg" srcset="assets/thumb/photos/d1-03.jpg 640w, assets/photos/d1-03.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d1-03.jpg" alt="Day 1 開幕與講座" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d1-04.jpg" srcset="assets/thumb/photos/d1-04.jpg 640w, assets/photos/d1-04.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d1-04.jpg" alt="Day 1 開幕與講座" loading="lazy" width="640" height="427"></div>
         </div>
       </details>
 
@@ -914,7 +981,7 @@
           <span data-l="zh">健康老化的概念、理論與實踐，以及高齡照護的文化議題與溝通技巧。</span>
           <span data-l="en">The concepts, theory and practice of healthy aging, together with cultural issues and communication skills in elder care.</span>
           <div class="who-line"><span data-l="zh">講者　</span><span data-l="en">Speakers: </span><span class="who">Li-Fan Liu</span></div>
-          <div class="shots" data-day="d2" data-alt-en="Day 2 — healthy aging and aging in place"><img class="shot" src="assets/photos/d2-01.jpg" alt="Day 2 健康老化課程" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d2-02.jpg" alt="Day 2 健康老化課程" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d2-03.jpg" alt="Day 2 健康老化課程" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d2-04.jpg" alt="Day 2 健康老化課程" loading="lazy" width="1400" height="933"></div>
+          <div class="shots" data-day="d2" data-alt-en="Day 2 — healthy aging and aging in place"><img class="shot" src="assets/thumb/photos/d2-01.jpg" srcset="assets/thumb/photos/d2-01.jpg 640w, assets/photos/d2-01.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d2-01.jpg" alt="Day 2 健康老化課程" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d2-02.jpg" srcset="assets/thumb/photos/d2-02.jpg 640w, assets/photos/d2-02.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d2-02.jpg" alt="Day 2 健康老化課程" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d2-03.jpg" srcset="assets/thumb/photos/d2-03.jpg 640w, assets/photos/d2-03.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d2-03.jpg" alt="Day 2 健康老化課程" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d2-04.jpg" srcset="assets/thumb/photos/d2-04.jpg 640w, assets/photos/d2-04.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d2-04.jpg" alt="Day 2 健康老化課程" loading="lazy" width="640" height="427"></div>
         </div>
       </details>
 
@@ -924,7 +991,7 @@
           <span data-l="zh">田野與使用者研究方法，長勝里吳里長分享與對談，下午前往南鐵綠廊北段實地踏查。</span>
           <span data-l="en">Methods for field and user research, a talk and discussion with Wu, Chief of Changsheng Village, and an afternoon survey on the northern section of the greenway.</span>
           <div class="who-line"><span data-l="zh">講者　</span><span data-l="en">Speakers: </span><span class="who">Chung-Ching Huang · Li-Wen Sung · Chi-Pang Lu</span></div>
-          <div class="shots" data-day="d3" data-alt-en="Day 3 — field survey and site visit"><img class="shot" src="assets/photos/d3-01.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d3-02.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="1400" height="788"><img class="shot" src="assets/photos/d3-03.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d3-04.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="1400" height="1050"></div>
+          <div class="shots" data-day="d3" data-alt-en="Day 3 — field survey and site visit"><img class="shot" src="assets/thumb/photos/d3-01.jpg" srcset="assets/thumb/photos/d3-01.jpg 640w, assets/photos/d3-01.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d3-01.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d3-02.jpg" srcset="assets/thumb/photos/d3-02.jpg 640w, assets/photos/d3-02.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d3-02.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="640" height="360"><img class="shot" src="assets/thumb/photos/d3-03.jpg" srcset="assets/thumb/photos/d3-03.jpg 640w, assets/photos/d3-03.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d3-03.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d3-04.jpg" srcset="assets/thumb/photos/d3-04.jpg 640w, assets/photos/d3-04.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d3-04.jpg" alt="Day 3 里長對談與基地踏查" loading="lazy" width="640" height="480"></div>
         </div>
       </details>
 
@@ -934,7 +1001,7 @@
           <span data-l="zh">各組觀察回報與提案發展，下午進行設計發想工作坊與原型規劃測試。</span>
           <span data-l="en">Groups reported their observations and developed their proposals, followed by an afternoon ideation workshop and prototype planning and testing.</span>
           <div class="who-line"><span data-l="zh">講者　</span><span data-l="en">Speakers: </span><span class="who">Chia-Han Yang · Chung-Ching Huang</span></div>
-          <div class="shots" data-day="d4" data-alt-en="Day 4 — ideation and prototyping"><img class="shot" src="assets/photos/d4-01.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d4-02.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d4-03.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d4-04.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="1400" height="933"></div>
+          <div class="shots" data-day="d4" data-alt-en="Day 4 — ideation and prototyping"><img class="shot" src="assets/thumb/photos/d4-01.jpg" srcset="assets/thumb/photos/d4-01.jpg 640w, assets/photos/d4-01.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d4-01.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d4-02.jpg" srcset="assets/thumb/photos/d4-02.jpg 640w, assets/photos/d4-02.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d4-02.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d4-03.jpg" srcset="assets/thumb/photos/d4-03.jpg 640w, assets/photos/d4-03.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d4-03.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d4-04.jpg" srcset="assets/thumb/photos/d4-04.jpg 640w, assets/photos/d4-04.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d4-04.jpg" alt="Day 4 設計發想工作坊" loading="lazy" width="640" height="427"></div>
         </div>
       </details>
 
@@ -944,7 +1011,7 @@
           <span data-l="zh">分組工作與設計檢討，教師逐組回饋、修正提案方向。</span>
           <span data-l="en">Group work and design review, with the teaching staff giving feedback to each group in turn as the groups refined the direction of their proposals.</span>
           <div class="who-line"><span data-l="zh">講者　</span><span data-l="en">Speakers: </span><span class="who">Li-Wen Sung · Chi-Pang Lu · Chia-Han Yang</span></div>
-          <div class="shots" data-day="d5" data-alt-en="Day 5 — design review"><img class="shot" src="assets/photos/d5-01.jpg" alt="Day 5 設計檢討" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d5-02.jpg" alt="Day 5 設計檢討" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d5-03.jpg" alt="Day 5 設計檢討" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d5-04.jpg" alt="Day 5 設計檢討" loading="lazy" width="1400" height="933"></div>
+          <div class="shots" data-day="d5" data-alt-en="Day 5 — design review"><img class="shot" src="assets/thumb/photos/d5-01.jpg" srcset="assets/thumb/photos/d5-01.jpg 640w, assets/photos/d5-01.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d5-01.jpg" alt="Day 5 設計檢討" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d5-02.jpg" srcset="assets/thumb/photos/d5-02.jpg 640w, assets/photos/d5-02.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d5-02.jpg" alt="Day 5 設計檢討" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d5-03.jpg" srcset="assets/thumb/photos/d5-03.jpg 640w, assets/photos/d5-03.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d5-03.jpg" alt="Day 5 設計檢討" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d5-04.jpg" srcset="assets/thumb/photos/d5-04.jpg 640w, assets/photos/d5-04.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d5-04.jpg" alt="Day 5 設計檢討" loading="lazy" width="640" height="427"></div>
         </div>
       </details>
 
@@ -954,7 +1021,7 @@
           <span data-l="zh">七組最終提案發表，全體教師出席，午後綜合回饋與討論。</span>
           <span data-l="en">All seven groups presented their final proposals to the full teaching staff, followed by general feedback and discussion in the afternoon.</span>
           <div class="who-line"><span data-l="zh">講者　</span><span data-l="en">Reviewers: </span><span class="who">All Faculty</span></div>
-          <div class="shots" data-day="d6" data-alt-en="Day 6 — final presentations"><img class="shot" src="assets/photos/d6-01.jpg" alt="Day 6 成果發表" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d6-02.jpg" alt="Day 6 成果發表" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d6-03.jpg" alt="Day 6 成果發表" loading="lazy" width="1400" height="933"><img class="shot" src="assets/photos/d6-04.jpg" alt="Day 6 成果發表" loading="lazy" width="1400" height="586"></div>
+          <div class="shots" data-day="d6" data-alt-en="Day 6 — final presentations"><img class="shot" src="assets/thumb/photos/d6-01.jpg" srcset="assets/thumb/photos/d6-01.jpg 640w, assets/photos/d6-01.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d6-01.jpg" alt="Day 6 成果發表" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d6-02.jpg" srcset="assets/thumb/photos/d6-02.jpg 640w, assets/photos/d6-02.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d6-02.jpg" alt="Day 6 成果發表" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d6-03.jpg" srcset="assets/thumb/photos/d6-03.jpg 640w, assets/photos/d6-03.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d6-03.jpg" alt="Day 6 成果發表" loading="lazy" width="640" height="427"><img class="shot" src="assets/thumb/photos/d6-04.jpg" srcset="assets/thumb/photos/d6-04.jpg 640w, assets/photos/d6-04.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/photos/d6-04.jpg" alt="Day 6 成果發表" loading="lazy" width="640" height="268"></div>
         </div>
       </details>
 
@@ -963,129 +1030,129 @@
 
   <section id="moments">
     <h3 class="sec"><span class="lbl en">MOMENTS</span><span data-l="zh">工作室與基地的現場</span><span data-l="en">Scenes from the Studio and the Site</span></h3>
-    <p class="lede" data-l="zh">每日精選之外的其他現場紀錄。滑鼠移上去或點一下可暫停。</p><p class="lede" data-l="en">More photos from the workshop beyond the daily selections. Hover or tap to pause.</p>
+    <p class="lede" data-l="zh">每日精選之外的其他現場紀錄。點任一張照片可放大檢視，滑鼠移上去可暫停。</p><p class="lede" data-l="en">More photos from the workshop beyond the daily selections. Click any photo to enlarge; hover to pause.</p>
     <div class="wall reveal">
     <div class="col" aria-hidden="true">
-      <img class="pic t1" src="assets/photos/d1-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d1-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d1-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d2-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d2-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d3-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d3-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d4-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d4-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d5-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-06.jpg" alt="" loading="eager" width="1400" height="2100">
-      <img class="pic t1" src="assets/photos/d6-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d1-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d1-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d1-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d2-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d2-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d3-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d3-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d4-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d4-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d5-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-06.jpg" alt="" loading="eager" width="1400" height="2100">
-      <img class="pic t1" src="assets/photos/d6-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-12.jpg" alt="" loading="eager" width="1400" height="933">
+      <img class="pic t1" src="assets/thumb/photos/d1-05.jpg" data-full="assets/photos/d1-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d1-08.jpg" data-full="assets/photos/d1-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d1-14.jpg" data-full="assets/photos/d1-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d2-07.jpg" data-full="assets/photos/d2-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d2-10.jpg" data-full="assets/photos/d2-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-13.jpg" data-full="assets/photos/d2-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d3-06.jpg" data-full="assets/photos/d3-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d3-09.jpg" data-full="assets/photos/d3-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-12.jpg" data-full="assets/photos/d3-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d4-05.jpg" data-full="assets/photos/d4-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-08.jpg" data-full="assets/photos/d4-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d4-11.jpg" data-full="assets/photos/d4-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-14.jpg" data-full="assets/photos/d4-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-07.jpg" data-full="assets/photos/d5-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d5-10.jpg" data-full="assets/photos/d5-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-13.jpg" data-full="assets/photos/d5-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-06.jpg" data-full="assets/photos/d6-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="960">
+      <img class="pic t1" src="assets/thumb/photos/d6-09.jpg" data-full="assets/photos/d6-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-12.jpg" data-full="assets/photos/d6-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d1-05.jpg" data-full="assets/photos/d1-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d1-08.jpg" data-full="assets/photos/d1-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d1-14.jpg" data-full="assets/photos/d1-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d2-07.jpg" data-full="assets/photos/d2-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d2-10.jpg" data-full="assets/photos/d2-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-13.jpg" data-full="assets/photos/d2-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d3-06.jpg" data-full="assets/photos/d3-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d3-09.jpg" data-full="assets/photos/d3-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-12.jpg" data-full="assets/photos/d3-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d4-05.jpg" data-full="assets/photos/d4-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-08.jpg" data-full="assets/photos/d4-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d4-11.jpg" data-full="assets/photos/d4-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-14.jpg" data-full="assets/photos/d4-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-07.jpg" data-full="assets/photos/d5-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d5-10.jpg" data-full="assets/photos/d5-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-13.jpg" data-full="assets/photos/d5-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-06.jpg" data-full="assets/photos/d6-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="960">
+      <img class="pic t1" src="assets/thumb/photos/d6-09.jpg" data-full="assets/photos/d6-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-12.jpg" data-full="assets/photos/d6-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
     </div>
     <div class="col rev" aria-hidden="true">
-      <img class="pic t1" src="assets/photos/d1-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d1-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d1-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d2-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d2-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d3-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d3-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d4-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d4-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d5-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d5-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d6-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d1-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d1-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d1-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d2-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d2-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d3-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d3-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d4-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d4-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d5-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d5-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d6-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-13.jpg" alt="" loading="eager" width="1400" height="933">
+      <img class="pic t1" src="assets/thumb/photos/d1-06.jpg" data-full="assets/photos/d1-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d1-09.jpg" data-full="assets/photos/d1-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d1-12.jpg" data-full="assets/photos/d1-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-05.jpg" data-full="assets/photos/d2-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d2-08.jpg" data-full="assets/photos/d2-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d2-11.jpg" data-full="assets/photos/d2-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-14.jpg" data-full="assets/photos/d2-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d3-07.jpg" data-full="assets/photos/d3-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d3-10.jpg" data-full="assets/photos/d3-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-13.jpg" data-full="assets/photos/d3-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d4-06.jpg" data-full="assets/photos/d4-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-09.jpg" data-full="assets/photos/d4-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d4-12.jpg" data-full="assets/photos/d4-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d5-05.jpg" data-full="assets/photos/d5-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-08.jpg" data-full="assets/photos/d5-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d5-11.jpg" data-full="assets/photos/d5-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-14.jpg" data-full="assets/photos/d5-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d6-10.jpg" data-full="assets/photos/d6-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-13.jpg" data-full="assets/photos/d6-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d1-06.jpg" data-full="assets/photos/d1-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d1-09.jpg" data-full="assets/photos/d1-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d1-12.jpg" data-full="assets/photos/d1-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-05.jpg" data-full="assets/photos/d2-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d2-08.jpg" data-full="assets/photos/d2-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d2-11.jpg" data-full="assets/photos/d2-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-14.jpg" data-full="assets/photos/d2-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d3-07.jpg" data-full="assets/photos/d3-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d3-10.jpg" data-full="assets/photos/d3-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-13.jpg" data-full="assets/photos/d3-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d4-06.jpg" data-full="assets/photos/d4-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-09.jpg" data-full="assets/photos/d4-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d4-12.jpg" data-full="assets/photos/d4-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d5-05.jpg" data-full="assets/photos/d5-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-08.jpg" data-full="assets/photos/d5-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d5-11.jpg" data-full="assets/photos/d5-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-14.jpg" data-full="assets/photos/d5-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d6-10.jpg" data-full="assets/photos/d6-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-13.jpg" data-full="assets/photos/d6-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
     </div>
     <div class="col" aria-hidden="true">
-      <img class="pic t1" src="assets/photos/d1-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d1-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d1-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d2-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d2-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d3-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d3-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d4-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d4-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d5-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d5-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d6-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d6-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d1-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d1-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d1-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d2-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d2-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d2-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d3-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d3-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d3-14.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d4-07.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d4-10.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d4-13.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d5-06.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d5-09.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d5-12.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t2" src="assets/photos/d6-05.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-08.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t1" src="assets/photos/d6-11.jpg" alt="" loading="eager" width="1400" height="933">
-      <img class="pic t3" src="assets/photos/d6-14.jpg" alt="" loading="eager" width="1400" height="933">
+      <img class="pic t1" src="assets/thumb/photos/d1-07.jpg" data-full="assets/photos/d1-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d1-10.jpg" data-full="assets/photos/d1-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d1-13.jpg" data-full="assets/photos/d1-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-06.jpg" data-full="assets/photos/d2-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d2-09.jpg" data-full="assets/photos/d2-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d2-12.jpg" data-full="assets/photos/d2-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-05.jpg" data-full="assets/photos/d3-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d3-08.jpg" data-full="assets/photos/d3-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d3-11.jpg" data-full="assets/photos/d3-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-14.jpg" data-full="assets/photos/d3-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d4-07.jpg" data-full="assets/photos/d4-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-10.jpg" data-full="assets/photos/d4-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d4-13.jpg" data-full="assets/photos/d4-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d5-06.jpg" data-full="assets/photos/d5-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-09.jpg" data-full="assets/photos/d5-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d5-12.jpg" data-full="assets/photos/d5-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d6-05.jpg" data-full="assets/photos/d6-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-08.jpg" data-full="assets/photos/d6-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d6-11.jpg" data-full="assets/photos/d6-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-14.jpg" data-full="assets/photos/d6-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d1-07.jpg" data-full="assets/photos/d1-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d1-10.jpg" data-full="assets/photos/d1-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d1-13.jpg" data-full="assets/photos/d1-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d2-06.jpg" data-full="assets/photos/d2-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d2-09.jpg" data-full="assets/photos/d2-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d2-12.jpg" data-full="assets/photos/d2-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-05.jpg" data-full="assets/photos/d3-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d3-08.jpg" data-full="assets/photos/d3-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d3-11.jpg" data-full="assets/photos/d3-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d3-14.jpg" data-full="assets/photos/d3-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d4-07.jpg" data-full="assets/photos/d4-07.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d4-10.jpg" data-full="assets/photos/d4-10.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d4-13.jpg" data-full="assets/photos/d4-13.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d5-06.jpg" data-full="assets/photos/d5-06.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d5-09.jpg" data-full="assets/photos/d5-09.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d5-12.jpg" data-full="assets/photos/d5-12.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t2" src="assets/thumb/photos/d6-05.jpg" data-full="assets/photos/d6-05.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-08.jpg" data-full="assets/photos/d6-08.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t1" src="assets/thumb/photos/d6-11.jpg" data-full="assets/photos/d6-11.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
+      <img class="pic t3" src="assets/thumb/photos/d6-14.jpg" data-full="assets/photos/d6-14.jpg" alt="" loading="lazy" decoding="async" width="640" height="427">
     </div>
     </div>
   </section>
@@ -1102,7 +1169,7 @@
           <span class="jump"><a class="jb" href="#g1-video" aria-label="Group 1 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g1-deck" aria-label="Group 1 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g1-video" class="vid" controls preload="none" poster="assets/video/g1-poster.jpg"
+          <video id="g1-video" class="vid" controls preload="none" data-poster="assets/video/g1-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g1.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g1.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g1.mp4">download it</a>.</span>
@@ -1127,7 +1194,7 @@
           <span class="jump"><a class="jb" href="#g2-video" aria-label="Group 2 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g2-deck" aria-label="Group 2 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g2-video" class="vid" controls preload="none" poster="assets/video/g2-poster.jpg"
+          <video id="g2-video" class="vid" controls preload="none" data-poster="assets/video/g2-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g2.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g2.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g2.mp4">download it</a>.</span>
@@ -1152,7 +1219,7 @@
           <span class="jump"><a class="jb" href="#g3-video" aria-label="Group 3 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g3-deck" aria-label="Group 3 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g3-video" class="vid" controls preload="none" poster="assets/video/g3-poster.jpg"
+          <video id="g3-video" class="vid" controls preload="none" data-poster="assets/video/g3-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g3.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g3.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g3.mp4">download it</a>.</span>
@@ -1177,7 +1244,7 @@
           <span class="jump"><a class="jb" href="#g4-video" aria-label="Group 4 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g4-deck" aria-label="Group 4 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g4-video" class="vid" controls preload="none" poster="assets/video/g4-poster.jpg"
+          <video id="g4-video" class="vid" controls preload="none" data-poster="assets/video/g4-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g4.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g4.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g4.mp4">download it</a>.</span>
@@ -1202,7 +1269,7 @@
           <span class="jump"><a class="jb" href="#g5-video" aria-label="Group 5 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g5-deck" aria-label="Group 5 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g5-video" class="vid" controls preload="none" poster="assets/video/g5-poster.jpg"
+          <video id="g5-video" class="vid" controls preload="none" data-poster="assets/video/g5-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g5.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g5.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g5.mp4">download it</a>.</span>
@@ -1227,7 +1294,7 @@
           <span class="jump"><a class="jb" href="#g6-video" aria-label="Group 6 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g6-deck" aria-label="Group 6 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g6-video" class="vid" controls preload="none" poster="assets/video/g6-poster.jpg"
+          <video id="g6-video" class="vid" controls preload="none" data-poster="assets/video/g6-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g6.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g6.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g6.mp4">download it</a>.</span>
@@ -1252,7 +1319,7 @@
           <span class="jump"><a class="jb" href="#g7-video" aria-label="Group 7 影片"><span data-l="zh">影片</span><span data-l="en">Video</span></a><a class="jb" href="#g7-deck" aria-label="Group 7 簡報"><span data-l="zh">簡報</span><span data-l="en">Slides</span></a></span>
         </summary>
         <div class="grp-body">
-          <video id="g7-video" class="vid" controls preload="none" poster="assets/video/g7-poster.jpg"
+          <video id="g7-video" class="vid" controls preload="none" data-poster="assets/video/g7-poster.jpg"
                  width="1280" height="720">
             <source src="assets/video/g7.mp4" type="video/mp4">
             <span data-l="zh">您的瀏覽器不支援影片播放，請<a href="assets/video/g7.mp4">下載影片</a>。</span><span data-l="en">Your browser cannot play this video. Please <a href="assets/video/g7.mp4">download it</a>.</span>
@@ -1288,7 +1355,7 @@
             <span class="ftitle" data-l="zh">開幕・來賓致詞</span><span class="ftitle" data-l="en">Opening · Guest Remarks</span>
             
           </div>
-          <img class="fpic" src="assets/forum/guest-1.jpg" alt="開幕・來賓致詞於論壇發表" data-alt-en="Opening remarks at the forum" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/guest-1.jpg" data-full="assets/forum/guest-1.jpg" alt="開幕・來賓致詞於論壇發表" data-alt-en="Opening remarks at the forum" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem">
           <span class="ftime en">09:20–09:40</span>
@@ -1296,7 +1363,7 @@
             <span class="ftitle">Edible Plantings in Streetscapes as Social Infrastructure for Community Building</span>
             <span class="fwho">Masayuki Suzuki<span class="faff" data-l="zh">千葉大學 Graduate School of Global and Transdisciplinary Studies｜Japan</span><span class="faff" data-l="en">Chiba University, Graduate School of Global and Transdisciplinary Studies · Japan</span></span>
           </div>
-          <img class="fpic" src="assets/forum/s1.jpg" alt="Masayuki Suzuki於論壇發表" data-alt-tpl="speaker" data-who="Masayuki Suzuki" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s1.jpg" data-full="assets/forum/s1.jpg" alt="Masayuki Suzuki於論壇發表" data-alt-tpl="speaker" data-who="Masayuki Suzuki" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem">
           <span class="ftime en">09:40–10:00</span>
@@ -1304,7 +1371,7 @@
             <span class="ftitle">Co-Creation and Participatory Design through Appropriate Technology<span class="fsub en">Community Engagement Programs in FTUI</span></span>
             <span class="fwho">Kemas Ridwan Kurniawan<span class="faff" data-l="zh">印尼大學建築系／工學院院長｜Indonesia</span><span class="faff" data-l="en">Dean, Faculty of Engineering; Department of Architecture, Universitas Indonesia · Indonesia</span></span>
           </div>
-          <img class="fpic" src="assets/forum/s2.jpg" alt="Kemas Ridwan Kurniawan於論壇發表" data-alt-tpl="speaker" data-who="Kemas Ridwan Kurniawan" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s2.jpg" data-full="assets/forum/s2.jpg" alt="Kemas Ridwan Kurniawan於論壇發表" data-alt-tpl="speaker" data-who="Kemas Ridwan Kurniawan" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem">
           <span class="ftime en">10:00–10:20</span>
@@ -1312,7 +1379,7 @@
             <span class="ftitle">Green Living Beyond Green Spaces<span class="fsub en">How Community Learning Creates Age-Friendly and Sustainable Cities</span></span>
             <span class="fwho">Pronyos Chattarakul<span class="faff"><span data-l="zh">KMUTT Center of Innovation for Society｜Thailand</span><span data-l="en">Center of Innovation for Society, King Mongkut's University of Technology Thonburi · Thailand</span><br><span class="proxy" data-l="zh">代為發表：Arunothai Sarigakham</span><span class="proxy" data-l="en">Presented on their behalf by Arunothai Sarigakham</span></span></span>
           </div>
-          <img class="fpic" src="assets/forum/s3.jpg" alt="Pronyos Chattarakul於論壇發表" data-alt-tpl="speaker" data-who="Pronyos Chattarakul" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s3.jpg" data-full="assets/forum/s3.jpg" alt="Pronyos Chattarakul於論壇發表" data-alt-tpl="speaker" data-who="Pronyos Chattarakul" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem brk">
           <span class="ftime en">10:20–10:40</span>
@@ -1324,7 +1391,7 @@
             <span class="ftitle">Green Space Development in Lamphun Municipality</span>
             <span class="fwho">Apichoke Lekagul<span class="faff" data-l="zh">清邁大學建築學院｜Thailand</span><span class="faff" data-l="en">Faculty of Architecture, Chiang Mai University · Thailand</span></span>
           </div>
-          <img class="fpic" src="assets/forum/s4.jpg" alt="Apichoke Lekagul於論壇發表" data-alt-tpl="speaker" data-who="Apichoke Lekagul" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s4.jpg" data-full="assets/forum/s4.jpg" alt="Apichoke Lekagul於論壇發表" data-alt-tpl="speaker" data-who="Apichoke Lekagul" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem">
           <span class="ftime en">11:00–11:20</span>
@@ -1332,7 +1399,7 @@
             <span class="ftitle">Reconnecting the Aging City<span class="fsub en">Temple Networks for Walkable and Inclusive Living in Chiang Mai Old Town</span></span>
             <span class="fwho">Nawit Ongsavangchai<span class="faff" data-l="zh">清邁大學建築學院｜Thailand</span><span class="faff" data-l="en">Faculty of Architecture, Chiang Mai University · Thailand</span></span>
           </div>
-          <img class="fpic" src="assets/forum/s5.jpg" alt="Nawit Ongsavangchai於論壇發表" data-alt-tpl="speaker" data-who="Nawit Ongsavangchai" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s5.jpg" data-full="assets/forum/s5.jpg" alt="Nawit Ongsavangchai於論壇發表" data-alt-tpl="speaker" data-who="Nawit Ongsavangchai" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem">
           <span class="ftime en">11:20–11:40</span>
@@ -1340,7 +1407,7 @@
             <span class="ftitle">Collaborative Design with Visually Impaired Individuals<span class="fsub en">Community-Based Practices for Inclusive Design</span></span>
             <span class="fwho">Momoka Hirai<span class="faff" data-l="zh">日本女子大學建築設計學系｜Japan</span><span class="faff" data-l="en">Department of Architecture and Design, Japan Women's University · Japan</span></span>
           </div>
-          <img class="fpic" src="assets/forum/s6.jpg" alt="Momoka Hirai於論壇發表" data-alt-tpl="speaker" data-who="Momoka Hirai" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s6.jpg" data-full="assets/forum/s6.jpg" alt="Momoka Hirai於論壇發表" data-alt-tpl="speaker" data-who="Momoka Hirai" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem">
           <span class="ftime en">11:40–12:00</span>
@@ -1348,7 +1415,7 @@
             <span class="ftitle">From Greenway to Age-Friendly Living Network<span class="fsub en">Community Participation and Urban Transformation in Tainan</span></span>
             <span class="fwho">Chi-Pang Lu<span class="faff" data-l="zh">成功大學建築系｜Taiwan</span><span class="faff" data-l="en">Department of Architecture, National Cheng Kung University · Taiwan</span></span>
           </div>
-          <img class="fpic" src="assets/forum/s7.jpg" alt="Chi-Pang Lu於論壇發表" data-alt-tpl="speaker" data-who="Chi-Pang Lu" loading="lazy" width="1400" height="933">
+          <img class="fpic" src="assets/thumb/forum/s7.jpg" data-full="assets/forum/s7.jpg" alt="Chi-Pang Lu於論壇發表" data-alt-tpl="speaker" data-who="Chi-Pang Lu" loading="lazy" width="640" height="427">
         </div>
         <div class="fitem op">
           <span class="ftime en">12:00–12:30</span>
@@ -1356,14 +1423,14 @@
             <span class="ftitle" data-l="zh">綜合討論</span><span class="ftitle" data-l="en">Open Forum Discussion</span>
             <span class="fwho">Chia-Han Yang<span class="faff" data-l="zh">主持｜成大創意產業設計研究所｜Taiwan</span><span class="faff" data-l="en">Moderator · Institute of Creative Industries Design, National Cheng Kung University · Taiwan</span></span>
           </div>
-          <img class="fpic" src="assets/forum/discussion.jpg" alt="綜合討論：與談學者並排就座，主持人持麥克風發言" data-alt-en="Panel discussion: the scholars seated side by side, the moderator speaking into a microphone" loading="lazy" width="1400" height="934">
+          <img class="fpic" src="assets/thumb/forum/discussion.jpg" data-full="assets/forum/discussion.jpg" alt="綜合討論：與談學者並排就座，主持人持麥克風發言" data-alt-en="Panel discussion: the scholars seated side by side, the moderator speaking into a microphone" loading="lazy" width="640" height="427">
         </div>
         </div>
         <div class="shots fgal">
-          <img class="shot" src="assets/forum/group-1.jpg" alt="論壇全體合照" data-alt-en="Full group photo at the forum" loading="lazy" width="1400" height="766">
-          <img class="shot" src="assets/forum/group-2.jpg" alt="論壇現場" data-alt-en="The forum in session" loading="lazy" width="1400" height="933">
-          <img class="shot" src="assets/forum/dean-2.jpg" alt="論壇致詞" data-alt-en="Remarks at the forum" loading="lazy" width="1400" height="933">
-          <img class="shot" src="assets/forum/group-3.jpg" alt="與會者合影" data-alt-en="Group photo of the participants" loading="lazy" width="1400" height="747">
+          <img class="shot" src="assets/thumb/forum/group-1.jpg" srcset="assets/thumb/forum/group-1.jpg 640w, assets/forum/group-1.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/forum/group-1.jpg" alt="論壇全體合照" data-alt-en="Full group photo at the forum" loading="lazy" width="640" height="350">
+          <img class="shot" src="assets/thumb/forum/group-2.jpg" srcset="assets/thumb/forum/group-2.jpg 640w, assets/forum/group-2.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/forum/group-2.jpg" alt="論壇現場" data-alt-en="The forum in session" loading="lazy" width="640" height="427">
+          <img class="shot" src="assets/thumb/forum/dean-2.jpg" srcset="assets/thumb/forum/dean-2.jpg 640w, assets/forum/dean-2.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/forum/dean-2.jpg" alt="論壇致詞" data-alt-en="Remarks at the forum" loading="lazy" width="640" height="427">
+          <img class="shot" src="assets/thumb/forum/group-3.jpg" srcset="assets/thumb/forum/group-3.jpg 640w, assets/forum/group-3.jpg 1400w" sizes="(max-width:640px) 92vw, 380px" data-full="assets/forum/group-3.jpg" alt="與會者合影" data-alt-en="Group photo of the participants" loading="lazy" width="640" height="341">
         </div>
       </div>
     </div>
@@ -1746,8 +1813,94 @@ document.querySelectorAll('.jb').forEach(a => {
 })();
 </script>
 <script>
-// 照片牆：點一下暫停／再點一下繼續（觸控裝置沒有 hover 可用）
-document.querySelectorAll('.wall').forEach(w => w.addEventListener('click', () => w.classList.toggle('paused')));
+// 影片封面延後到展開該組時才載入：7 張封面約 1.1 MB，收合狀態下用不到
+document.querySelectorAll('.grp').forEach(g => {
+  const load = () => g.querySelectorAll('video[data-poster]').forEach(v => { v.poster = v.dataset.poster; v.removeAttribute('data-poster'); });
+  if (g.open) load(); else g.addEventListener('toggle', () => g.open && load(), { once: true });
+});
+</script>
+<script>
+/* 照片燈箱。每張可放大的圖都帶 data-full（原圖）；src 是縮圖。
+   點到哪一組就在那一組裡切換：同一天的 .shots、照片牆（去重）、論壇 .fpic。 */
+(() => {
+  const lb = document.querySelector('.lb');
+  if (!lb || !lb.showModal) return;          // 舊瀏覽器沒有 dialog：照片照常顯示，只是不能放大
+  const img = lb.querySelector('.lb-img'), txt = lb.querySelector('.lb-txt'), num = lb.querySelector('.lb-n');
+  const prevB = lb.querySelector('.lb-prev'), nextB = lb.querySelector('.lb-next'), closeB = lb.querySelector('.lb-x');
+  const en = () => document.documentElement.lang === 'en';
+  let set = [], i = 0, opener = null;
+
+  const groupOf = el => {
+    if (el.closest('.wall')) {
+      const seen = new Set();
+      return [...document.querySelectorAll('.wall .pic')].filter(p => !seen.has(p.dataset.full) && seen.add(p.dataset.full));
+    }
+    const box = el.closest('.shots') || el.closest('.forum');
+    return [...box.querySelectorAll(el.classList.contains('fpic') ? '.fpic' : '.shot')];
+  };
+  const label = () => {
+    const z = en();
+    closeB.setAttribute('aria-label', z ? 'Close' : '關閉');
+    prevB.setAttribute('aria-label', z ? 'Previous photo' : '上一張');
+    nextB.setAttribute('aria-label', z ? 'Next photo' : '下一張');
+    lb.setAttribute('aria-label', z ? 'Photo viewer' : '照片檢視');
+  };
+  const show = k => {
+    i = (k + set.length) % set.length;
+    const el = set[i];
+    img.classList.add('loading');
+    img.onload = () => img.classList.remove('loading');
+    img.src = el.dataset.full;
+    img.alt = el.alt || '';
+    txt.textContent = el.alt || (en() ? 'Workshop Moments' : '工作坊現場');
+    num.textContent = set.length > 1 ? `${i + 1} / ${set.length}` : '';
+    prevB.hidden = nextB.hidden = set.length < 2;
+    // 預先載入下一張，切換時不閃
+    if (set.length > 1) { const n = new Image(); n.src = set[(i + 1) % set.length].dataset.full; }
+  };
+  const open = el => {
+    opener = el; set = groupOf(el); label();
+    show(set.indexOf(set.find(p => p.dataset.full === el.dataset.full)));
+    document.documentElement.style.overflow = 'hidden';
+    lb.showModal();
+  };
+  lb.addEventListener('close', () => {
+    document.documentElement.style.overflow = '';
+    img.removeAttribute('src');
+    if (opener && opener.tabIndex >= 0) opener.focus({ preventScroll: true });
+  });
+
+  // 每日照片與論壇照片可用鍵盤開啟；照片牆是 aria-hidden 的裝飾，只接受點擊
+  document.querySelectorAll('.shot, .fpic').forEach(el => {
+    el.tabIndex = 0; el.setAttribute('role', 'button');
+  });
+  document.addEventListener('click', e => {
+    const el = e.target.closest('.shot, .fpic, .wall .pic');
+    if (el && el.dataset.full) { e.preventDefault(); open(el); }
+  });
+  document.addEventListener('keydown', e => {
+    const el = e.target.closest && e.target.closest('.shot, .fpic');
+    if (el && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(el); }
+  });
+
+  lb.addEventListener('click', e => {
+    const b = e.target.closest('[data-lb]');
+    if (b) return b.dataset.lb === 'close' ? lb.close() : show(i + (b.dataset.lb === 'next' ? 1 : -1));
+    if (e.target === lb) lb.close();            // 點外圍暗處關閉
+  });
+  lb.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight') { e.preventDefault(); show(i + 1); }
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); show(i - 1); }
+  });
+  // 觸控左右滑
+  let x0 = null;
+  lb.addEventListener('pointerdown', e => { x0 = e.clientX; });
+  lb.addEventListener('pointerup', e => {
+    if (x0 === null || set.length < 2) return;
+    const dx = e.clientX - x0; x0 = null;
+    if (Math.abs(dx) > 40) show(i + (dx < 0 ? 1 : -1));
+  });
+})();
 </script>
 </body>
 </html>
