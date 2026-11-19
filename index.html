@@ -136,7 +136,26 @@
   .about .ag{position:absolute;width:300px;height:300px;border-radius:50%;
     top:-52%;right:-6%;filter:blur(60px);
     background:radial-gradient(circle,rgba(15,157,88,.13),transparent 70%)}
-  .about .ain{position:relative;z-index:2}
+  .about .ain{
+    position:relative; z-index:2;
+    display:grid; grid-template-columns:minmax(0,1.2fr) minmax(0,1fr); gap:36px; align-items:center;
+  }
+  /* 右欄願景圖：白襯底與 SITE 地圖同語彙，可點開燈箱 */
+  .avis{margin:0}
+  .avis img{
+    display:block; width:100%; height:auto; aspect-ratio:854/770; object-fit:cover;
+    border-radius:18px; background:#fff; cursor:zoom-in;
+    box-shadow:0 10px 28px -14px rgba(8,99,58,.35);
+  }
+  .avis img:focus-visible{outline:2px solid var(--green-deep); outline-offset:3px}
+  .avis figcaption{margin-top:9px; font-size:.72rem; color:var(--ink-soft); line-height:1.5; letter-spacing:.02em}
+  @media(max-width:760px){
+    .about .ain{grid-template-columns:1fr; gap:22px}
+  }
+  @media(prefers-reduced-motion:no-preference){
+    .avis img{transition:transform .45s cubic-bezier(.22,1,.36,1), box-shadow .45s ease}
+    @media(hover:hover){ .avis img:hover{transform:translateY(-3px) scale(1.015); box-shadow:0 18px 34px -16px rgba(8,99,58,.42)} }
+  }
   .about .lede{max-width:none}
   /* 段落間距只該在段與段之間。ABOUT 兩段中英各一、同時只顯示一段，
      :last-child 對不到被隱藏的那段，所以直接對兩段都歸零 */
@@ -798,6 +817,7 @@
     <div class="about reveal">
       <div class="ag"></div>
       <div class="ain">
+        <div class="atext">
         <p class="lede" data-l="zh">
           為期七天的國際設計工作坊，來自日本、印尼、泰國、菲律賓、越南與台灣的師生共同參與。
           以<strong>台南南鐵綠廊北段</strong>為基地，探討高齡化社會中的社區生活、公共空間與在地老化議題，
@@ -811,6 +831,14 @@
           land freed by moving the city's railway underground — it explores community life, public space and aging
           in place in a super-aged society, with seven groups each putting forward a design proposal.
         </p>
+        </div>
+        <figure class="avis">
+          <img src="assets/site/about-vision.jpg" data-full="assets/site/about-vision.jpg"
+               alt="南鐵綠廊願景模擬圖：一對長者在開滿藍花楹的綠廊步道上散步"
+               data-alt-en="Greenway vision render: an older couple walking along a tree-lined path under jacaranda blossoms"
+               loading="lazy" width="854" height="770">
+          <figcaption><span data-l="zh">綠廊願景模擬圖・資料來源：仲觀聯合建築師事務所</span><span data-l="en">Greenway vision render · Source: J.M. Lin Architect / The Observer Design Group</span></figcaption>
+        </figure>
       </div>
     </div>
   </section>
@@ -1836,6 +1864,7 @@ document.querySelectorAll('.grp').forEach(g => {
       return [...document.querySelectorAll('.wall .pic')].filter(p => !seen.has(p.dataset.full) && seen.add(p.dataset.full));
     }
     const box = el.closest('.shots') || el.closest('.forum');
+    if (!box) return [el];                      // ABOUT 願景圖等單張
     return [...box.querySelectorAll(el.classList.contains('fpic') ? '.fpic' : '.shot')];
   };
   const label = () => {
@@ -1871,15 +1900,15 @@ document.querySelectorAll('.grp').forEach(g => {
   });
 
   // 每日照片與論壇照片可用鍵盤開啟；照片牆是 aria-hidden 的裝飾，只接受點擊
-  document.querySelectorAll('.shot, .fpic').forEach(el => {
+  document.querySelectorAll('.shot, .fpic, .avis img').forEach(el => {
     el.tabIndex = 0; el.setAttribute('role', 'button');
   });
   document.addEventListener('click', e => {
-    const el = e.target.closest('.shot, .fpic, .wall .pic');
+    const el = e.target.closest('.shot, .fpic, .wall .pic, .avis img');
     if (el && el.dataset.full) { e.preventDefault(); open(el); }
   });
   document.addEventListener('keydown', e => {
-    const el = e.target.closest && e.target.closest('.shot, .fpic');
+    const el = e.target.closest && e.target.closest('.shot, .fpic, .avis img');
     if (el && (e.key === 'Enter' || e.key === ' ')) { e.preventDefault(); open(el); }
   });
 
