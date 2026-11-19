@@ -1834,6 +1834,21 @@ document.querySelectorAll('.jb').forEach(a => {
 })();
 </script>
 <script>
+// 照片牆接近畫面時，把整面牆的縮圖改成立即載入。
+// 原因：照片牆用 CSS transform 動畫往上捲，瀏覽器（尤其 Safari）判斷 loading="lazy"
+// 時不把 transform 位移算進去，被動畫推進畫面的照片可能遲遲不下載，留下空白格。
+// 首次載入仍省下這批流量；沒有 JS 時維持原生 lazy。
+(() => {
+  const wall = document.querySelector('.wall');
+  if (!wall) return;
+  const load = () => wall.querySelectorAll('img[loading="lazy"]').forEach(i => { i.loading = 'eager'; });
+  if (!('IntersectionObserver' in window)) return load();
+  const io = new IntersectionObserver(es => { if (es.some(e => e.isIntersecting)) { load(); io.disconnect(); } },
+    { rootMargin: '1000px 0px' });
+  io.observe(wall);
+})();
+</script>
+<script>
 // 影片封面延後到展開該組時才載入：7 張封面約 1.1 MB，收合狀態下用不到
 document.querySelectorAll('.grp').forEach(g => {
   const load = () => g.querySelectorAll('video[data-poster]').forEach(v => { v.poster = v.dataset.poster; v.removeAttribute('data-poster'); });
